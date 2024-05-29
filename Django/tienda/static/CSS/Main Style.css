@@ -1,0 +1,168 @@
+/* body*/
+
+body{
+    background: linear-gradient(#ffffff, #9fd3da, #ffffff);
+}
+
+/*el .es para las class y el #ID*/
+/* Esta parte es todo lo que es el header , icono y color  */
+.cabezera{
+    background-color: rgb(121, 236, 236,0.6);
+    
+    height: 50px;
+    width: 100%;
+    align-items: center;
+    padding: 3px 10px;
+}
+.icono{
+    object-fit: cover; /*esto es para que depanda de su padre*/
+    height: 100%;
+    margin-right: 10px;
+    border-radius:  50%; /*esto es para que sea un circulo*/
+    
+}   
+.pinpon{
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    display: flex;
+    flex-direction: row; /*la direccion es en columnas*/
+    justify-content: flex-start; /* es para que este pegadoa  la parte izquierda arriba*/
+    align-items: center;
+    color: black;
+    font-size: 20px; /*dimension de la letra*/
+    font-family: 600;
+    text-decoration: none;
+}
+/* esta parte le da el color y alinia las cosas del nav*/
+.navbar{
+    background-color: rgb(126, 178, 228);
+    
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+.container-nav{
+    width: 100%;
+    margin-left: 4px;
+}
+.nav-item{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 17px;
+    color: rgb(253, 253, 253);
+    margin-right: 100px;
+}
+.navbar-toggler-icon{
+    background-color: rgb(121, 236, 236,0.6);
+}
+.nav-item:hover{
+    background-color: rgba(239, 245, 245, 0.932);
+    border-radius: 10px;
+    
+}
+#icono1{
+    width:120px; 
+    position: absolute;
+    left:50px;
+}
+@media (max-width: 992px) {
+    .nav-item:hover{
+      background-color: rgba(239, 245, 245, 0.932);
+      border-radius: 10px;
+      padding: 0px 10px 0px 2px;
+      width: fit-content;
+    }
+  }
+/* Titulo */
+#Titulo{
+    color: black;
+    font-size: 50px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+}
+
+/* Footer */
+
+.contenedor-footer{
+    background-color: rgb(126, 178, 228);
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    position: absolute;
+    
+}
+#margen{
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+
+#contactos{
+    text-align: center;
+    width: 50%;
+    height: auto;
+    padding: 20px;
+}
+#contactos a{
+    text-decoration: none;
+}
+#nosotros{
+    text-align: center;
+    width: 50%;
+    height: auto;
+    padding: 10px;
+}
+#nosotros ol:hover{
+    font-weight: 700;
+
+}
+#copyrai{
+    text-align: center;
+    width: 100%;
+    background-color: rgb(68, 111, 152);
+    color: white;
+    height: auto;
+    font-weight: 650;
+}
+
+/*parrafos*/
+#parrafos{
+    margin: auto;
+    background-color: rgb(126, 178, 228);
+    background: transparent;
+    backdrop-filter: blur(5px);
+    border-color: rgb(255, 255, 255,0.10);
+    border-style: solid;
+    border-width: 5px;
+    border-radius: 10px;
+    padding: 40px;
+    text-align: center;
+    justify-content: space-around;
+    width: 80%;
+}
+
+/*RESPONSIVE*/
+  
+@media (max-width: 768px) {
+    body{
+        min-height: 100vh;
+    }
+    
+} 
+/*Menu responsivo*/
+  
+  
+/*@media (max-width: 768px) {
+    .cabezera{
+        height: 30px;
+    }
+    .icono{
+        margin-right: 5px;
+    }
+    .pinpon{
+        font-size: 15px;
+    }
+
+}*/
