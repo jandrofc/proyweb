@@ -1,9 +1,14 @@
 from django.shortcuts import render
 
 # Create your views here.
+from .models import Genero
+
 
 def index (request):
-    return render(request,'index.html')
+    Generos= Genero.objects.all()
+    context={"generos":Generos}
+    return render(request,'index.html',context)
+
 
 
 def contactanos (request):
