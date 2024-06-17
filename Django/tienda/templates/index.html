@@ -12,10 +12,14 @@
     <title>Tienda Pinponcitos</title>
 </head>
 <body>
-        <header class="cabezera">
-            <a class="pinpon"><img src="{% static 'Imagenes/icono.jpeg' %}" alt="icono pagina" class="icono"><img src="{%static 'Imagenes/aas.png' %}" id="icono1" style="width:120px; " alt="icono"></a>
-    
-        </header>
+    <header class="cabezera">
+        <a href="{% url 'index' %}" class="pinpon"><img src="{% static 'Imagenes/icono.jpeg' %}" alt="icono pagina" class="icono">
+        <img src="{%static 'Imagenes/aas.png' %}" id="icono1"  alt="icono"></a>
+        <Div class="user">
+            <h5>Usuario</h5>
+            <div class="perfil"></div>
+        </Div>
+    </header>
         <nav class=" navbar navbar-expand-lg navbar-light  ">  
             <div class="container-nav">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
