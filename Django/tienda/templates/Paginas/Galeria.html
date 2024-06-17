@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <meta name="google-signin-client_id" content="805025860714-75mr0ps3a1gudj5338ensoial5ru79e8.apps.googleusercontent.com">
     <title>Tienda Pinponcitos</title>
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -15,9 +16,12 @@
         <img src="{%static 'Imagenes/aas.png' %}" id="icono1"  alt="icono"></a>
         <Div class="user">
             <h5>Usuario</h5>
-            <div class="perfil"></div>
+            <button class="perfil" type="submit" onclick="AbrirCuenta(event);"></button>
         </Div>
     </header>
+    <div id="pop-up">
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    </div>
     <nav class=" navbar navbar-expand-lg navbar-light  ">  
         <div class="container-nav">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -196,5 +200,7 @@
     <script src="{% static '/JavaScript/Galeria.js' %}"></script>
     <script src="{% static '/JavaScript/Galeria_Productos.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="{% static '/JavaScript/Google.js' %}"></script>
 </body>
 </html>

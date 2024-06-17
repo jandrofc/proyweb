@@ -17,12 +17,13 @@ body{
 }
 .icono{
     object-fit: cover; /*esto es para que depanda de su padre*/
-    height: 100%;
+    max-height: 100%;
     margin-right: 10px;
     border-radius:  50%; /*esto es para que sea un circulo*/
 }
 #icono1{
     width:120px; 
+    max-height: 100%;
     position: absolute;
     left:50px;
     transform: translateY(-25%);
@@ -31,6 +32,8 @@ body{
     height: 100%;
     width: auto;
 }
+
+/* Perfil de usuario*/
 .user{
     height: 100%;
     width: 100%;
@@ -38,6 +41,8 @@ body{
     position: relative;
     justify-content: flex-end;
     align-items: center;
+    margin-left: 300px;
+    box-sizing: border-box;
 }
 .perfil{
     height: 100%;
@@ -45,6 +50,34 @@ body{
     border : 3px solid black;
     border-radius: 50%;
     margin-left: 0.5cm;
+}
+#pop-up{
+    /*display: none; Ocultamos el formulario, con js cmabiarlo a block*/
+    /*display: block;     js propiedad*/
+    display: none;      
+    position: absolute;
+
+
+    background-color: rgb(155, 70, 31);
+    border-color: rgb(255, 255, 255);
+    border-style: solid;
+    
+    border-width: 5px;
+    border-radius: 10px;
+    padding: 40px;
+    
+    
+    width: 8cm;
+    height: 6cm;
+    z-index: 1;
+    right: 4px;
+
+    justify-content: center;
+    align-items: center;
+}
+.pop-up .g-signin2 {
+    overflow: hidden; /*sobre escribimos las prop del boton*/
+    border-radius: 10px;
 }
 
 /* esta parte le da el color y alinia las cosas del nav*/

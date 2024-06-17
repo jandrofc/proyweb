@@ -6,4 +6,5 @@ urlpatterns = [
     path('Nosotros', Nosotros ,name='Nosotros'),
     path('Galeria', Galeria ,name='Galeria'),
     path('Contactanos', Contactanos ,name='Contactanos'),
+    
 ]
