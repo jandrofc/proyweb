@@ -11,7 +11,7 @@
 </head>
 <body>
     <header class="cabezera">
-        <a href="../index.html" class="pinpon"><img src="{% static 'Imagenes/icono.jpeg' %}" alt="icono pagina" class="icono"><img src="{%static 'Imagenes/aas.png' %}" id="icono1"  alt="icono"></a>
+        <a href="{% url 'index' %}" class="pinpon"><img src="{% static 'Imagenes/icono.jpeg' %}" alt="icono pagina" class="icono"><img src="{%static 'Imagenes/aas.png' %}" id="icono1"  alt="icono"></a>
 
     </header>
     <nav class=" navbar navbar-expand-lg navbar-light  ">  
@@ -24,16 +24,15 @@
             <div class = "collapse navbar-collapse " id="navbar-star">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="../index.html" ><i class="bi bi-house-door-fill"></i> Inicio</a>
+                        <a class="nav-link" href="{% url 'index' %}" ><i class="bi bi-house-door-fill"></i> Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../Paginas/Quienes_somos.html"><i class="bi bi-people-fill"></i> Nosotros</a>
-                    </li>
+                        <a class="nav-link" href="{% url 'About' %}"><i class="bi bi-people-fill"></i> Nosotros</a>
                     <li class="nav-item">
                         <a class="nav-link" ><i class="bi bi-collection"></i> Galería</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../paginas/contactanos.html"><i class="bi bi-telephone-inbound"></i> Contáctanos</a>
+                        <a class="nav-link" href="{% url 'contactanos' %}"><i class="bi bi-telephone-inbound"></i> Contáctanos</a>
                     </li>
                 </ul>
             </div>
