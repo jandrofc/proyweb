@@ -6,12 +6,12 @@ def index (request):
     return render(request,'index.html')
 
 
-def contactanos (request):
+def Contactanos (request):
     return render(request,'Paginas/contactanos.html')
 
 
 
-def About (request):
+def Nosotros (request):
     return render(request,'Paginas/Quienes_somos.html')
 
 def Galeria (request):
