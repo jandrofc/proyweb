@@ -1,0 +1,210 @@
+/* body*/
+
+body{
+    background: linear-gradient(#ffffff, #9fd3da, #ffffff);
+}
+
+/*el .es para las class y el #ID*/
+/* Esta parte es todo lo que es el header , icono y color  */
+.cabezera{
+    background-color: rgb(121, 236, 236,0.6);
+    
+    height: 50px;
+    width: 100%;
+
+    padding: 3px 10px;
+    display: flex;
+}
+.icono{
+    object-fit: cover; /*esto es para que depanda de su padre*/
+    max-height: 100%;
+    margin-right: 10px;
+    border-radius:  50%; /*esto es para que sea un circulo*/
+}
+#icono1{
+    width:120px; 
+    max-height: 100%;
+    position: absolute;
+    left:50px;
+    transform: translateY(-25%);
+}
+.pinpon{
+    height: 100%;
+    width: auto;
+}
+
+/* Perfil de usuario*/
+.user{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    position: relative;
+    justify-content: flex-end;
+    align-items: center;
+    margin-left: 300px;
+    box-sizing: border-box;
+}
+.perfil{
+    height: 100%;
+    width: 44px;
+    border : 3px solid black;
+    border-radius: 50%;
+    margin-left: 0.5cm;
+}
+#pop-up{
+    /*display: none; Ocultamos el formulario, con js cmabiarlo a block*/
+    /*display: block;     js propiedad*/
+    display: none;      
+    position: absolute;
+
+
+    background-color: rgb(155, 70, 31);
+    border-color: rgb(255, 255, 255);
+    border-style: solid;
+    
+    border-width: 5px;
+    border-radius: 10px;
+    padding: 40px;
+    
+    
+    width: 8cm;
+    height: 6cm;
+    z-index: 1;
+    right: 4px;
+
+    justify-content: center;
+    align-items: center;
+}
+.pop-up .g-signin2 {
+    overflow: hidden; /*sobre escribimos las prop del boton*/
+    border-radius: 10px;
+}
+
+/* esta parte le da el color y alinia las cosas del nav*/
+.navbar{
+    background-color: rgb(126, 178, 228);
+    
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+.container-nav{
+    width: 100%;
+    margin-left: 4px;
+}
+.nav-item{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 17px;
+    color: rgb(253, 253, 253);
+    margin-right: 100px;
+}
+.navbar-toggler-icon{
+    background-color: rgb(121, 236, 236,0.6);
+}
+.nav-item:hover{
+    background-color: rgba(239, 245, 245, 0.932);
+    border-radius: 10px;
+    
+}
+
+@media (max-width: 992px) {
+    .nav-item:hover{
+      background-color: rgba(239, 245, 245, 0.932);
+      border-radius: 10px;
+      padding: 0px 10px 0px 2px;
+      width: fit-content;
+    }
+  }
+/* Titulo */
+#Titulo{
+    color: black;
+    font-size: 50px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+}
+
+/* Footer */
+
+.contenedor-footer{
+    background-color: rgb(126, 178, 228);
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    position: absolute;
+    
+}
+#margen{
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+
+#contactos{
+    text-align: center;
+    width: 50%;
+    height: auto;
+    padding: 20px;
+}
+#contactos a{
+    text-decoration: none;
+}
+#nosotros{
+    text-align: center;
+    width: 50%;
+    height: auto;
+    padding: 10px;
+}
+#nosotros ol:hover{
+    font-weight: 700;
+
+}
+#copyrai{
+    text-align: center;
+    width: 100%;
+    background-color: rgb(68, 111, 152);
+    color: white;
+    height: auto;
+    font-weight: 650;
+}
+
+/*parrafos*/
+#parrafos{
+    margin: auto;
+    background-color: rgb(126, 178, 228);
+    background: transparent;
+    backdrop-filter: blur(5px);
+    border-color: rgb(255, 255, 255,0.10);
+    border-style: solid;
+    border-width: 5px;
+    border-radius: 10px;
+    padding: 40px;
+    text-align: center;
+    justify-content: space-around;
+    width: 80%;
+}
+
+/*RESPONSIVE*/
+  
+@media (max-width: 768px) {
+    body{
+        min-height: 100vh;
+    }
+    
+} 
+/*Menu responsivo*/
+  
+  
+/*@media (max-width: 768px) {
+    .cabezera{
+        height: 30px;
+    }
+    .icono{
+        margin-right: 5px;
+    }
+    .pinpon{
+        font-size: 15px;
+    }
+
+}*/
