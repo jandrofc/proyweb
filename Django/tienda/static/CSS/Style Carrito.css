@@ -16,11 +16,7 @@ thead,tbody{
     background-color: rgb(126, 178, 228);
 }
 
-.contenedor-footer {
-    height: auto;
-    bottom: 0;
-    width: 100%;
-}
+
 
 button{
     background-color: rgb(75, 113, 189);
