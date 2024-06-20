@@ -9,6 +9,7 @@ class Usuario(models.Model):
     apellido   = models.CharField(max_length=20,null=False,blank=False)
     correo     =  models.EmailField(max_length=20,null=False,blank=False)
     telefono   = models.CharField(max_length=11, null=True,blank=True)
+    contaseña  = models.CharField(max_length=30,null=False,blank=False)
 
 class Administrador(models.Model):
     id_admin = models.AutoField(primary_key=True)

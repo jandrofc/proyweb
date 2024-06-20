@@ -42,7 +42,9 @@
         </div>
     </nav>
     <div>
-        <form id="registro">
+        <form id="registro" method="POST">
+            {% csrf_token %}
+            {{form.as_ul}}
             <h1>Registrarse</h1>
             <div>
               <label for="rut" id="labelrut">Rut:</label>
@@ -61,14 +63,14 @@
                 <input type="text">
             </div>
             <div>
+                <label for="correo">Correo:</label>
+                <input type="email">
+            </div>
+            <div>
                 <label for="telefono">Telefono:</label>
                 <input type="text">
               </div>
             <div>
-            <div>
-                <label for="correo">Correo:</label>
-                <input type="email">
-            </div>
             <div>
                 <label for="contraseña">Contraseña:</label>
                 <input type="password">
