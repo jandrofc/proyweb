@@ -11,29 +11,75 @@ body{
     
     height: 50px;
     width: 100%;
-    align-items: center;
+
     padding: 3px 10px;
+    display: flex;
 }
 .icono{
     object-fit: cover; /*esto es para que depanda de su padre*/
-    height: 100%;
+    max-height: 100%;
     margin-right: 10px;
     border-radius:  50%; /*esto es para que sea un circulo*/
-    
-}   
+}
+#icono1{
+    width:120px; 
+    max-height: 100%;
+    position: absolute;
+    left:50px;
+    transform: translateY(-25%);
+}
 .pinpon{
     height: 100%;
-    width: 100%;
-    align-items: center;
-    display: flex;
-    flex-direction: row; /*la direccion es en columnas*/
-    justify-content: flex-start; /* es para que este pegadoa  la parte izquierda arriba*/
-    align-items: center;
-    color: black;
-    font-size: 20px; /*dimension de la letra*/
-    font-family: 600;
-    text-decoration: none;
+    width: auto;
 }
+
+/* Perfil de usuario*/
+.user{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    position: relative;
+    justify-content: flex-end;
+    align-items: center;
+    margin-left: 300px;
+    box-sizing: border-box;
+}
+.perfil{
+    height: 100%;
+    width: 44px;
+    border : 3px solid black;
+    border-radius: 50%;
+    margin-left: 0.5cm;
+}
+#pop-up{
+    /*display: none; Ocultamos el formulario, con js cmabiarlo a block*/
+    /*display: block;     js propiedad*/
+    display: none;      
+    position: absolute;
+
+
+    background-color: rgb(155, 70, 31);
+    border-color: rgb(255, 255, 255);
+    border-style: solid;
+    
+    border-width: 5px;
+    border-radius: 10px;
+    padding: 40px;
+    
+    
+    width: 8cm;
+    height: 6cm;
+    z-index: 1;
+    right: 4px;
+
+    justify-content: center;
+    align-items: center;
+}
+.pop-up .g-signin2 {
+    overflow: hidden; /*sobre escribimos las prop del boton*/
+    border-radius: 10px;
+}
+
 /* esta parte le da el color y alinia las cosas del nav*/
 .navbar{
     background-color: rgb(126, 178, 228);
@@ -60,11 +106,7 @@ body{
     border-radius: 10px;
     
 }
-#icono1{
-    width:120px; 
-    position: absolute;
-    left:50px;
-}
+
 @media (max-width: 992px) {
     .nav-item:hover{
       background-color: rgba(239, 245, 245, 0.932);
