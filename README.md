@@ -1,4 +1,4 @@
-se establecio algunos modelos, para la base de datos, se usó el administrador de jdgango y se cargo archivos al index desde la base de datos
+Link con la base de datos, y versiones de otras branh ya que quedo la caga xddddd
 
 Cositas 
-https://drive.google.com/drive/folders/15Xlt_dmDtfFfcVwfNGiUPnHkianPf_MY
+https://drive.google.com/drive/u/4/folders/1_zFfw3le_nw8w6UyIU46QkSC2F3uclUR
