@@ -1,0 +1,136 @@
+body{
+    height: auto;
+    width: 100%;
+}
+#contenedor-contactanos{
+    /* aqui hago que les doy las propiedades 
+    al padre para poder centrar al hijo al medio*/
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    
+}
+#contactanos-formulario{
+    /* /* aqui le doy las propiedades al hijo  */
+    border-color: rgb(255, 255, 255);
+    border-width: 1px;
+    border-radius: 50px;
+    box-shadow: 5px 5px 5px rgb(140, 187, 196);
+    padding: 40px;
+    margin: 20px;
+    background-color: rgb(126, 178, 228);
+    height: 50%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#contactanos-formulario input{
+    margin: 10px;
+    padding: 10px;
+    width: 80%;
+    border-radius: 5px;
+    border: 1px solid white;
+    background-color: rgb(254, 255, 255);
+}
+#contactanos-formulario textarea{
+    margin: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid white;
+    background-color: rgb(255, 255, 255);
+}
+#contactanos-formulario #button{
+    border-radius: 10px;
+    width: 30%;
+}
+#contactanos-formulario #button:hover{
+    background-color: white;
+    color: black;
+}
+#contactanos-formulario #button:active{
+    background-color: black;
+    color: white;
+}
+#contactanos-formulario label{
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+    text-align: center;
+    margin: 10px;
+    
+}
+h1{
+    color: white;
+}
+textarea{
+    resize: none;
+    width: 80%;
+    height: 3cm;
+}
+#div-regiones,#div-comuna{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+}
+#div-radio{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+}
+#juguetes-radio ,#ropa-radio{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    align-content: center;
+}
+@media screen and (max-width: 768px){
+    #contactanos-formulario{
+        width: 80%;
+    }
+    #contactanos-formulario input{
+        width: 100%;
+    }
+    #contactanos-formulario textarea{
+        width: 100%;
+    }
+    #contactanos-formulario #button{
+        width: 50%;
+    }
+    #div-regiones,#div-comuna{
+        width: 100%;
+    }
+    #div-radio{
+        width: 100%;
+    }
+}
+@media(max-width: 1200px)
+{
+    #contactanos-formulario{
+        width: 80%;
+    }
+    #contactanos-formulario input{
+        width: 100%;
+    }
+    #contactanos-formulario textarea{
+        width: 100%;
+    }
+    #contactanos-formulario #button{
+        width: 50%;
+    }
+    #div-regiones,#div-comuna{
+        width: 100%;
+    }
+    #div-radio{
+        width: 100%;
+    }
+}
