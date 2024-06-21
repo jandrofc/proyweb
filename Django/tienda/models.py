@@ -3,18 +3,19 @@ from django.db import models
 # Create your models here.
 class Usuario(models.Model):
     id_usuario = models.AutoField(primary_key=True)
-    rut        = models.CharField(max_length=8,null=False,blank=False)
-    dv         = models.CharField(max_length=1,null=False,blank=False)
-    nombre     = models.CharField(max_length=20,null=False,blank=False)
-    apellido   = models.CharField(max_length=20,null=False,blank=False)
-    correo     =  models.EmailField(max_length=20,null=False,blank=False)
+    rut        = models.CharField(max_length=8)
+    dv         = models.CharField(max_length=1)
+    nombre     = models.CharField(max_length=20)
+    apellido   = models.CharField(max_length=20)
+    correo     =  models.EmailField(max_length=20)
     telefono   = models.CharField(max_length=11, null=True,blank=True)
+    contraseña  = models.CharField(max_length=30)
 
 class Administrador(models.Model):
     id_admin = models.AutoField(primary_key=True)
     activo   = models.BooleanField(default=True)
     fecha_activivacion = models.DateTimeField(auto_now_add=True)
-    fecha_termino      = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    fecha_termino      = models.DateTimeField(auto_now_add=False, null=True, blank=True)
     descripcion        = models.TextField(max_length=150, null=True, blank=True)
 
 class Cliente(models.Model):
