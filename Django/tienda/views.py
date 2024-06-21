@@ -31,7 +31,7 @@ def Login (request):
 
 def Registro (request):
     data1 = {
-        'form': UserCreationForm()
+        'form': RegistroForm()
     }
     data2 = {
         'form': UsuarioForm()

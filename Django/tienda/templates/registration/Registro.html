@@ -44,12 +44,12 @@
     <div>
         <form id="registro" method="POST">
             {% csrf_token %}
-            {{form.as_ul}}
+            {{form.as_table}}
             <h1>Registrarse</h1>
             <div>
               <label for="rut" id="labelrut">Rut:</label>
               <div id="rut">
-                <input type="text" id="rut1">
+                <input type="text" id="rut">
                 <h4>-</h4>
                 <input type="text" id="dv">
               </div>

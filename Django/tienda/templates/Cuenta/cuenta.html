@@ -9,6 +9,55 @@
     <link rel="stylesheet" href="{%static 'CSS/Main Style.css' %}"></link>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        /* Perfil de usuario*/
+        .user{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        position: relative;
+        justify-content: flex-end;
+        align-items: center;
+        margin-left: 300px;
+        box-sizing: border-box;
+        }
+        .perfil{
+        height: 44px;
+        width: 44px;
+        border : 3px solid black;
+        border-radius: 50%;
+        margin-left: 0.5cm;
+        }
+        #pop-up{
+        /*display: none; Ocultamos el formulario, con js cmabiarlo a block*/
+        /*display: block;     js propiedad*/
+        display: none;      
+        position: absolute;
+
+
+        background-color: rgb(126, 178, 228);
+        border-color: rgb(255, 255, 255);
+        border-style: solid;
+
+        border-width: 5px;
+        border-radius: 10px;
+        padding: 40px;
+
+
+        width: 8cm;
+        height: 6cm;
+        z-index: 1;
+        right: 0px;
+        top: 45px;
+
+        justify-content: center;
+        align-items: center;
+        }
+        span{
+        color: black;
+        }
+        </style>
+
 
 </head>
 <body>
@@ -17,14 +66,17 @@
         <img src="{%static 'Imagenes/aas.png' %}" id="icono1"  alt="icono"></a>
         <Div class="user">
             {% if user.is_authenticated %}
-                <div>
-                    <h5>Bienvenid@ {{ user.username }}</h5>
+                <div style="display: flex;">
+                    <h5>Bienvenid@ <span style="font-weight: bold;">{{ user.username }}</span></h5>
                     <button class="perfil" type="submit" onclick="AbrirCuenta(event);"></button>
-                </div> 
+                </div>
+                <div id="pop-up">
+                    <a href=#>Mi Cuenta</a>
+                    <a href="{% url 'logout' %}"><span>Cerrar Sesión</span></a>
             {% else %}
                 <div>
-                    <a href="{% url 'Login' %}">Iniciar Sesión</a>
-                    <a href="{% url 'Registro' %}">Registrarse</a>
+                    <a href="{% url 'Login' %}"><span>Iniciar Sesión</span></a>
+                    <a href="{% url 'Registro' %}"><span>Registrarse</span></a>
                 </div>
             {% endif %}
         </Div>

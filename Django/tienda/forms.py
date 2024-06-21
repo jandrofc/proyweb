@@ -9,21 +9,28 @@ from django.contrib.auth.models import User
 
 
 class RegistroForm(UserCreationForm):
-    class Meta:
+    rut = forms.CharField(required=True)
+    dv = forms.CharField(required=True)
+    nombre = forms.CharField(required=True)
+    apellido = forms.CharField(required=True)
+    correo = forms.EmailField(required=True)
+    telefono = forms.CharField(required=True)
+    contraseña = forms.CharField(widget=forms.PasswordInput)
+    
+    class Meta(UserCreationForm.Meta):
         model = User
-        fields = ['rut','dv','nombre','apellido','correo','telefono','contaseña']
-
+        fields = UserCreationForm.Meta.fields
 
 class UsuarioForm(ModelForm):
     class Meta:
         model = Usuario
-        fields = ['rut','dv','nombre','apellido','correo','telefono','contaseña']
+        fields = ['rut','dv','nombre','apellido','correo','telefono','contraseña']
 
 
 class AdministradorForm(ModelForm):
     class Meta:
         model = Administrador
-        fields = ['activo','fecha_activivacion','fecha_termino','descripcion']
+        fields = ['activo','fecha_termino','descripcion']
 
 class ClienteForm(ModelForm):
     class Meta:
