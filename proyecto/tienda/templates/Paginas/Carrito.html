@@ -44,29 +44,38 @@
         </div>
     </nav>
     <div>
+    
         <h1>Carrito de Compras</h1>
         <table class="table table-bordered alert alert-warning" id="carrito">
             <thead>
-                <td>PRODUCTO</td>
-                <td>DESCRIPCION</td>
+                <td>Nombre</td>
+                <td>Descripcion</td>
                 <td>PRECIO</td>
                 <td>CANTIDAD</td>
             </thead>
             <tbody>
+                {% if request.session.carrito.items %}
+                {% for key,value in request.session.carrito.items %}
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{value.nombre}}</td>
+                    <td>{{value.descripcion}}</td>
+                    <td>{{value.precio}}</td>
+                    <td>{{value.cantidad}}</td>
                     <td>
                         <br>
-                        <a href=# class="badge btn btn-primary">+</a>
-                        <a href=# class="badge btn btn-warning">-</a>
+                        <a href="{% url 'agregar' value.id_producto %}" class="badge btn btn-primary">+</a>
+                        <a href="{% url 'restar' value.id_producto %}" class="badge btn btn-warning">-</a>
                     </td>
                 </tr>
+                {% endfor %}
+                {% endif %}
                 <tr>
                     <th scope="row">Total : </th>
-                    <td colspan="2">$ </td>
+                    <td colspan="2">$ {{total_boleta}}</td>
+                </tr>
+                <tr>
+                    <a href="{% url 'limpiar' %}">Limpiar</a>
+                    <a href="">Guardad</a>
                 </tr>
             </tbody>
         </table>

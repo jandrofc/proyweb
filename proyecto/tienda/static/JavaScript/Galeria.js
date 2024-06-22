@@ -1,11 +1,11 @@
 
-function MostrarCaja(e){
+/*function MostrarCaja(e){
     //e.preventDefault();
     var id = e.currentTarget.id;  // Obtiene el id de la caja que se ha clickeado, la id la tiene el evento es deir e
     var detalle;
 
     switch(id){
-        case "caja1":
+        case "x":
             detalle = document.getElementById("detalle1"); 
 
             if (detalle.style.visibility === null || detalle.style.visibility === "" || detalle.style.visibility === "hidden") {
@@ -71,4 +71,12 @@ function MostrarCaja(e){
     }
 }
 
-
+function mostrarDetalles(id) {
+    var detalle = document.getElementById('detalle' + id);
+    if (detalle.style.display === "none" || !detalle.style.display) {
+        detalle.style.display = "block";
+    } else {
+        detalle.style.display = "none";
+    }
+}*/
+  

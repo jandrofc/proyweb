@@ -1,8 +1,10 @@
+from datetime import datetime
+fecha = datetime.now()
 class Carrito:
     def __init__(self,request):
         self.request = request
         self.session = request.session
-        carrito = self.session["carrito"]
+        carrito = self.session.get("carrito")
         if not carrito:
             self.session["carrito"] = {}
             self.carrito = self.session["carrito"]
@@ -13,17 +15,17 @@ class Carrito:
         id = str(Producto.id)
         if id not in self.carrito.Keys():
             self.carrito[id]={
-                "producto_id" : Producto.id,
+                "producto_id" : Producto.id_producto,
                 "nombre": Producto.nombre,
                 "imagen": Producto.imagen,
-                "precio" : Producto.precio,
-                "stock" : Producto.stock,
+                "precio": Producto.precio,
                 "categoria": Producto.categoria,
                 "cantidad" : 1,
+                "total": Producto.precio
             }
         else: 
             self.carrito[id]["cantidad"] +=1
-            self.carrito[id]["precio"] += Producto.precio
+            self.carrito[id]["total"] += Producto.precio
         self.guardar_carrito()
     
     def guardar_carrito(self):

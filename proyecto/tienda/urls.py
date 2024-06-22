@@ -11,7 +11,7 @@ urlpatterns = [
     path('Login', Login ,name='Login'),
     path('Registro', Registro ,name='Registro'),
     path('Boleta', Boleta ,name='Boleta'),
-    path('Carrito', Carrito ,name='Carrito'),
+    path('Carrito', Carrito,name='Carrito'),
 
 
 ]

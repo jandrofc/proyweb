@@ -55,38 +55,38 @@ def Registro (request):
 def Boleta (request):
     return render(request,'Paginas/Boleta.html')
 
-#todo lo que esta relacionado con el carrito
-def tienda_carrito (request):
-    producto = producto.objects.all()
-    return render(request,'Paginas/Carrito.html',{'productos':Producto})
+def Carrito (request):
+    return render(request,'Paginas/Carrito.html')
 
-def agragar_producto(request,id_producto):
+#todo lo que esta relacionado con el carrito
+def Galeria (request):
+    producto = Producto.objects.all()
+    return render(request,'Paginas/Galeria.html',{'productos':producto})
+
+def agregar_producto(request, id_producto):
     carrito = Carrito(request)
-    producto = Producto.objects.get(id =id_producto)
+    producto = Producto.objects.get(id_producto =id_producto)
     carrito.agregar(producto)
-    return redirect("tienda:tienda")
+    return redirect("Galeria")
 
 def eliminar_producto(request,id_producto):
     carrito = Carrito(request)
-    producto = Producto.objects.get(id=id_producto)
+    producto = Producto.objects.get( id_producto =id_producto)
     carrito.eliminar(producto)
-    return redirect("tienda:tienda")
+    return redirect("Galeria")
 
 def restar_producto(request,id_producto):
     carrito = Carrito(request)
-    producto = Producto.objects.get(id=id_producto)
+    producto = Producto.objects.get( id_producto =id_producto)
     carrito.restar(producto)
-    return redirect("tienda:tienda")
+    return redirect("Galeria")
 
 def limpiar_carrito(request):
-    carrito = Carrito(request)
+    carrito = Boleta(request)
     carrito.limpiar()
-    return redirect("tienda:tienda")
+    return redirect("Galeria")
 # mostrar en galeria
-def galeria(request):
-    productos = Producto.objects.all()  # Obtiene todos los productos
-    categorias = Categoria.objects.all()  # Obtiene todas las categorías
-    return render(request, 'Galeria.html', {'Producto': productos, 'categorias': categorias})
+
 
 '''
 @login_required

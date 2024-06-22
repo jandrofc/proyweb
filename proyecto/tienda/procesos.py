@@ -5,3 +5,7 @@ def total_boleta(request):
             for key,value in request.session["carrito"].items():
                 total += int(value["precio"])
     return {"total_boleta": total}
+
+def iva(total):
+    total = total_boleta(total)
+    return total*0.19

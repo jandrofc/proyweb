@@ -1,5 +1,5 @@
 /* Imagenes y sus cajas */
-cajas{
+.cajas{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -39,7 +39,7 @@ cajas{
     visibility: hidden;
 }
 
-.detalle h2, .detalle p{
+.detalle .card-title, .detalle .card-text{
     
 
     width: 100%;
