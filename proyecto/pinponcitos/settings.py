@@ -39,6 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'tienda',
 ]
+AUTHENTICATION_BACKENDS = [
+    'tienda.BackEnd.EmailBackend',  # Asegúrate de reemplazar 'path.to.your' con la ruta real de tu backend
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

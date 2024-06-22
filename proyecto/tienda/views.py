@@ -35,12 +35,13 @@ def Login (request):
         correo = request.POST.get('correo')
         password = request.POST.get('password')
 
-        usuario = authenticate(request, email=correo, password=password)
+        usuario = authenticate(request, username=correo, password=password)
 
         if usuario is not None:
             login(request, usuario)
             return redirect('index')
         else:
+            
             messages.info(request, 'Correo o contraseña incorrecta')
             
     
