@@ -41,7 +41,7 @@ def Login (request):
             login(request, usuario)
             return redirect('index')
         else:
-            messages.info(request, 'Usuario o contraseña incorrecta')
+            messages.info(request, 'Correo o contraseña incorrecta')
             
     
     context = {}

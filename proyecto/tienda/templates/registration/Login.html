@@ -44,8 +44,9 @@
     </nav>
     <div>
         <form id="login" method="post" action="">
-            {{csrf_token}}
-            {{for message in messages}}
+            {%csrf_token%}
+            
+            {%for message in messages%}
                 <div class="mensaje">
                     {{message}}
                 </div>
