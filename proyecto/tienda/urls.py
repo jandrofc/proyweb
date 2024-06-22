@@ -20,7 +20,7 @@ urlpatterns = [
     path('EditarCategoria/<id>',EditarCategoria ,name='EditarCategoria'),
     path('AñadirCategoria',AñadirCategoria ,name='AñadirCategoria'),
     path('ListaCategoria',ListaCategoria ,name='ListaCategoria'),
-    path('eliminar_categoria/<id>',eliminarCategoria ,name='eliminar_categoria'),
+    path('eliminar_categoria/<id>',eliminarCategoria ,name='eliminarCategoria'),
 
 
     path('Boleta', Boleta ,name='Boleta'),
