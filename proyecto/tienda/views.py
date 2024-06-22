@@ -68,13 +68,49 @@ def Logout (request):
     return redirect('index')
 
 #Administracion
+def ListaCategoria (request):
+    categoria = Categoria.objects.all()
+    datos = {
+        'categorias':categoria
+    }
+    return render(request,'Paginas/Administracion/ListaCategorias.html',datos)
+def eliminarCategoria(request, id): 
+    categoriaEliminada = Categoria.objects.get(id_categoria=id) #similar a select * from... where...
+    categoriaEliminada.delete()
+    return redirect ('ListaCategoria')
 
-def EditarProductos (request):
-    return render(request,'Paginas/Administracion/EditarProductos.html')
+def AñadirCategoria (request):
+    if request.method == 'POST':
+        categoriaform= CategoriaForm(request.POST, request.FILES)
+        if categoriaform.is_valid():
+            categoriaform.save()
+            messages.success(request, 'Categoria creada exitosamente')
+            return redirect('AñadirCategoria')
+    else:
+        categoriaform = CategoriaForm()
+
+    return render(request,'Paginas/Administracion/AñadirCategoria.html',{'CategoriaForm':categoriaform})
+
+def ListaCategoria (request):
+    categoria = Categoria.objects.all()
+    datos = {
+        'categorias':categoria
+    }
+    return render(request,'Paginas/Administracion/ListaCategorias.html',datos)
 
 
-def EditarCategoria (request):
-    return render(request,'Paginas/Administracion/EditarCategoria.html')
+def EditarCategoria (request,id):
+    ModificarCategoria=Categoria.objects.get(id_categoria=id) #buscamos el objeto
+    datos ={
+        'form':CategoriaForm(instance=ModificarCategoria)
+    }
+    if request.method=="POST":
+        formulario = CategoriaForm(data=request.POST, instance=ModificarCategoria)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect ('ListaCategoria')
+    return render(request, 'Paginas/Administracion/EditarCategoria.html', datos)
+
 
 def AñadirProducto (request):
     if request.method == 'POST':
@@ -88,17 +124,10 @@ def AñadirProducto (request):
 
     return render(request,'Paginas/Administracion/AñadirProducto.html',{'ProductoForm':productoform})
 
-def AñadirCategoria (request):
-    if request.method == 'POST':
-        categoriaform= CategoriaForm(request.POST, request.FILES)
-        if categoriaform.is_valid():
-            categoriaform.save()
-            messages.success(request, 'Categoria creada exitosamente')
-            return redirect('AñadirCategoria')
-    else:
-        categoriaform = CategoriaForm()
+def EditarProductos (request):
+    return render(request,'Paginas/Administracion/EditarProductos.html')
 
-    return render(request,'Paginas/Administracion/AñadirCategoria.html',{'CategoriaForm':categoriaform})
+
 
 
 #boleta
