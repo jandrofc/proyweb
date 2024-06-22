@@ -39,3 +39,41 @@ class CategoriaForm(forms.ModelForm):
                 'id': 'descripcion',
                 'class': 'form-control'}),
         }
+
+
+class ProductoForm(forms.ModelForm):
+    class Meta:
+        model = Producto
+        fields = ['nombre', 'descripcion', 'imagen', 'precio', 'stock', 'categoria']
+        labels = {
+            'nombre': 'Nombre',
+            'descripcion': 'Descripción',
+            'imagen': 'Imagen',
+            'precio': 'Precio',
+            'stock': 'Stock',
+            'categoria': 'Categoría',
+        }
+        widgets = {
+            'nombre': forms.TextInput(attrs={
+                'placeholder':'Ingrese un nombre..',
+                'id': 'nombre',
+                'class': 'form-control'}),
+            'descripcion': forms.Textarea(attrs={
+                'placeholder':'Ingrese una descripción..',
+                'id': 'descripcion',
+                'class': 'form-control'}),
+            'imagen': forms.FileInput(attrs={
+                'id': 'imagen',
+                'class': 'form-control'}),
+            'precio': forms.NumberInput(attrs={
+                'placeholder':'Ingrese un precio..',
+                'id': 'precio',
+                'class': 'form-control'}),
+            'stock': forms.NumberInput(attrs={
+                'placeholder':'Ingrese un stock..',
+                'id': 'stock',
+                'class': 'form-control'}),
+            'categoria': forms.Select(attrs={
+                'id': 'categoria',
+                'class': 'form-control'}),
+        }
