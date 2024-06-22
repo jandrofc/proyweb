@@ -43,17 +43,23 @@
         </div>
     </nav>
     <div>
-        <form id="login">
+        <form id="login" method="post" action="">
+            {{csrf_token}}
+            {{for message in messages}}
+                <div class="mensaje">
+                    {{message}}
+                </div>
+            {% endfor %}
             <h1>Iniciar Sesión</h1>
             <div>
               <label for="correo">Correo:</label>
               <br>
-              <input type="email">
+              <input type="email" name="correo">
             </div>
             <div>
                 <label for="contraseña">Contraseña:</label>
                 <br>
-                <input type="password">
+                <input type="password" name="password">
               </div>
             <div>
               <input type="checkbox" id="checkbox">

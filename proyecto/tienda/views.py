@@ -1,10 +1,13 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
 from .carrito import Carrito
 from tienda.models import Categoria, Producto
 #se importan los tipos de formularios que se van a utilizar de forms.py
-from .forms import RegistroForm,UsuarioForm,AdministradorForm,ClienteForm
+from .forms import RegistroUserForm
 
+#aletar con mensaje de error o exito en formularios
+from django.contrib import messages
 
 # Create your views here.
 
@@ -28,28 +31,39 @@ def Galeria (request):
 #Paginas de cuenta
 
 def Login (request):
+    if request.method == 'POST':
+        correo = request.POST.get('correo')
+        password = request.POST.get('password')
+
+        usuario = authenticate(request, email=correo, password=password)
+
+        if usuario is not None:
+            login(request, usuario)
+            return redirect('index')
+        else:
+            messages.info(request, 'Usuario o contraseña incorrecta')
+            
+    
+    context = {}
     return render(request,'registration/Login.html')
 
 def Registro (request):
-    data1 = {
-        'form': RegistroForm()
-    }
-    data2 = {
-        'form': UsuarioForm()
-    }
+    form = RegistroUserForm()
     if request.method == 'POST':
-        formulario = RegistroForm(request.POST)
-        formulario2 = UsuarioForm(request.POST)
-        if formulario.is_valid():
-            formulario.save()
-            formulario2.save()
-            data1["mensaje"] = "Usuario registrado"
-        else:
-            data1["form"] = formulario
+        form = RegistroUserForm(request.POST)
+        if form.is_valid():
+            form.save()
 
+            messages.success(request, 'Cuenta creada exitosamente')
 
+            return redirect('Login')
+    context = {'form':form}
+    return render(request, 'registration/registro.html',context)
 
-    return render(request,'registration/Registro.html')
+def Logout (request):
+    logout(request)
+    return redirect('index')
+
 
 #boleta
 def Boleta (request):
