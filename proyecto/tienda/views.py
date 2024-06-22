@@ -65,6 +65,20 @@ def Logout (request):
     logout(request) #cierra la sesion funcion de django
     return redirect('index')
 
+#Administracion
+
+def EditarProductos (request):
+    return render(request,'Paginas/Administracion/EditarProductos.html')
+
+def AñadirProducto (request):
+    return render(request,'Paginas/Administracion/AñadirProducto.html')
+
+def EditarCategoria (request):
+    return render(request,'Paginas/Administracion/EditarCategoria.html')
+
+def AñadirCategoria (request):
+    return render(request,'Paginas/Administracion/AñadirCategoria.html')
+
 
 #boleta
 @login_required(login_url='Login')

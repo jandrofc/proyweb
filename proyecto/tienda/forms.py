@@ -19,3 +19,17 @@ class RegistroUserForm(UserCreationForm):
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError('El correo ya está registrado')
         return email
+    
+
+class CategoriaForm(forms.ModelForm):
+    class Meta:
+        model = Categoria
+        fields = ['nombre', 'descripcion']
+        labels = {
+            'nombre': 'Nombre',
+            'descripcion': 'Descripción',
+        }
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
+        }

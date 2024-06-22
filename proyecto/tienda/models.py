@@ -33,9 +33,11 @@ class Pago(models.Model):
     nombre = models.CharField(max_length=20)
 
 class Categoria(models.Model):
-    id_categoria = models.AutoField(primary_key=True)
-    nombre       = models.CharField(max_length=20)
-    descripcion  = models.TextField(max_length=150)
+    id_categoria = models.AutoField(primary_key=True,verbose_name="ID")
+    nombre       = models.CharField(max_length=20, verbose_name="Nombre")
+    descripcion  = models.TextField(max_length=150 ,verbose_name="Descripción")
+    def __str__(self):
+        return self.nombre
 
 
 class Producto(models.Model):
@@ -46,6 +48,10 @@ class Producto(models.Model):
     precio      = models.IntegerField()
     stock       = models.IntegerField()
     categoria   = models.ForeignKey(Categoria, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.nombre
+
     
 
 
@@ -66,6 +72,9 @@ class Boleta(models.Model):
     id_cliente= models.ForeignKey(Cliente, on_delete=models.CASCADE)
     productos = models.ManyToManyField(Producto)
 
+    def __str__(self):
+        return self.id_boleta
+
 class Despacho(models.TextChoices):
     ('D', 'Despachado'),
     ('N', 'No Despachado'),
@@ -81,4 +90,7 @@ class Detalle_compra(models.Model):
     cantidad   = models.IntegerField()
     precio     = models.IntegerField()
     id_boleta  = models.ForeignKey(Boleta, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.id_detalle
 
