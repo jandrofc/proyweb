@@ -1,4 +1,4 @@
-{% extends "base.html" %} 
+{% extends "Cuenta/cuenta.html" %} 
 
 {% block content %}
 <!DOCTYPE html>
@@ -50,23 +50,22 @@
         <form method="POST" id="formulario" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="row">
-                <label for="{{ vehiculoform.field.name }}">
-                    {{ vehiculoform.patente.label }}
+                <label for="{{ CategoriaForm.nombre.id_for_label }}">
+                    {{ CategoriaForm.nombre.label }}
                 </label>
-                {{ vehiculoform.patente }}
+                {{ CategoriaForm.nombre }}
             </div>
 
             <div class="row">
-                <label for="{{ vehiculoform.field.name }}">
-                    {{ vehiculoform.marca.label }}
+                <label for="{{ CategoriaForm.descripcion.id_for_label }}">
+                    {{ CategoriaForm.descripcion.label }}
                 </label>
-                {{ vehiculoform.marca }}
+                {{ CategoriaForm.descripcion }}
             </div>
 
             <br><br>
             <input type="submit" class="btn btn-primary" value="Enviar">
             <a href="{% url 'index' %}" class="btn btn-success">Inicio</a>
-            
 
 
         </form>

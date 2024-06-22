@@ -4,10 +4,12 @@ from django.contrib.auth import authenticate, login, logout
 from .carrito import Carrito
 from tienda.models import Categoria, Producto
 #se importan los tipos de formularios que se van a utilizar de forms.py
-from .forms import RegistroUserForm
+from .forms import RegistroUserForm, CategoriaForm
 
 #aletar con mensaje de error o exito en formularios
 from django.contrib import messages
+
+
 
 # Create your views here.
 
@@ -77,7 +79,16 @@ def EditarCategoria (request):
     return render(request,'Paginas/Administracion/EditarCategoria.html')
 
 def AñadirCategoria (request):
-    return render(request,'Paginas/Administracion/AñadirCategoria.html')
+    if request.method == 'POST':
+        categoriaform= CategoriaForm(request.POST, request.FILES)
+        if categoriaform.is_valid():
+            categoriaform.save()
+            messages.success(request, 'Categoria creada exitosamente')
+            return redirect('AñadirCategoria')
+    else:
+        categoriaform = CategoriaForm()
+
+    return render(request,'Paginas/Administracion/AñadirCategoria.html',{'CategoriaForm':categoriaform})
 
 
 #boleta

@@ -30,6 +30,12 @@ class CategoriaForm(forms.ModelForm):
             'descripcion': 'Descripción',
         }
         widgets = {
-            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
-            'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
+            'nombre': forms.TextInput(attrs={
+                'placeholder':'Ingrese un nombre..',
+                'id': 'nombre',
+                'class': 'form-control'}),
+            'descripcion': forms.Textarea(attrs={
+                'placeholder':'Ingrese una descripción..',
+                'id': 'descripcion',
+                'class': 'form-control'}),
         }
