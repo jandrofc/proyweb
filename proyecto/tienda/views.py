@@ -50,7 +50,7 @@ def Login (request):
 
 def Registro (request):
     form = RegistroUserForm()
-    if request.method == 'POST':
+    if request.method == 'POST' or None:
         form = RegistroUserForm(request.POST)
         if form.is_valid():
             form.save()
@@ -62,15 +62,17 @@ def Registro (request):
     return render(request, 'registration/registro.html',context)
 
 def Logout (request):
-    logout(request)
+    logout(request) #cierra la sesion funcion de django
     return redirect('index')
 
 
 #boleta
+@login_required(login_url='Login')
 def Boleta (request):
     return render(request,'Paginas/Boleta.html')
 
 #todo lo que esta relacionado con el carrito
+@login_required(login_url='Login')
 def tienda_carrito (request):
     producto = producto.objects.all()
     return render(request,'Paginas/Carrito.html',{'productos':Producto})
@@ -103,11 +105,3 @@ def galeria(request):
     categorias = Categoria.objects.all()  # Obtiene todas las categorías
     return render(request, 'Galeria.html', {'Producto': productos, 'categorias': categorias})
 
-'''
-@login_required
-def Login (request):
-    request.session["usuario"]="admin"
-    usuario = request.session["usuario"]
-    context = {'usuario':usuario}
-    return render(request, 'Login.html', context)
-'''

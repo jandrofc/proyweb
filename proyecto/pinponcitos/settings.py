@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'tienda',
 ]
 AUTHENTICATION_BACKENDS = [
-    'tienda.BackEnd.EmailBackend',  # Asegúrate de reemplazar 'path.to.your' con la ruta real de tu backend
+    'tienda.BackEnd.EmailBackend',  
     'django.contrib.auth.backends.ModelBackend',
 ]
 
