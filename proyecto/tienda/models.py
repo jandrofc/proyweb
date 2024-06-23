@@ -8,6 +8,7 @@ class MetodoPago(models.TextChoices):
     TARJETA       = 'C', 'Tarjeta'
     EFECTIVO      = 'E', 'Efectivo'
 
+#crear esos 3 valores inmediatamente
 
 class Pago(models.Model):
     id = models.CharField(max_length=1,choices=MetodoPago.choices,primary_key=True,)
@@ -18,7 +19,7 @@ class Pago(models.Model):
 class Usuario(models.Model):
     id_usuario = models.AutoField(primary_key=True)
     rut        = models.CharField(max_length=8,null=True,blank=True)
-    username   = models.CharField(max_length=20)
+    username   = models.CharField(max_length=20,default='usuario')
     nombre     = models.CharField(max_length=20)
     apellido   = models.CharField(max_length=20)
     correo     =  models.EmailField(max_length=20)
@@ -71,7 +72,7 @@ class Boleta(models.Model):
     iva       = models.IntegerField()
     id_estado = models.CharField(max_length=1,choices=Estados.choices)
     id_pago   = models.ForeignKey(Pago, on_delete=models.CASCADE)
-    id_Usuario= models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    id_Usuario= models.ForeignKey(Usuario, on_delete=models.CASCADE,default=1)
     productos = models.ManyToManyField(Producto)
 
     def __str__(self):
