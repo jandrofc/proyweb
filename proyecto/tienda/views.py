@@ -27,7 +27,8 @@ def Nosotros (request):
     return render(request,'Paginas/Quienes_somos.html')
 #Galeria de productos
 def Galeria (request):
-    return render(request,'Paginas/Galeria.html')
+    productos= Producto.objects.all()
+    return render(request,'Paginas/Galeria.html',{'productos':productos})
 
 
 #Paginas de cuenta
