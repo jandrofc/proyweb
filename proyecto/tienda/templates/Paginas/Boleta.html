@@ -24,31 +24,33 @@
             </button>
         </div>
     </nav>
-    <div>
-        <h1>Boleta</h1>
-        <table class="table table-bordered alert alert-warning" id="boleta">
+    <div class="container">
+        <h3> Detalle de Compra </h3><br><h6>Fecha: {{ fecha }}</h6>
+        <hr>
+        <table class="table">
             <thead>
-                <td>FECHA EMITIDA</td>
-                <td>HORA EMITIDA</td>
-                <td>NETO</td>
-                <td>IVA</td>
-                <td>PRECIO TOTAL</td>
-                <td>ESTADO DEL PEDIDO</td>
-                <TD>TIPO DE PAGO</TD>
-                <td>PRODUCTOS</td>
+                <tr>
+                    <th>Código Boleta</th>
+                    <th>producto</th>
+                    <th>Total</th>
+                    <th>Cantidad</th>
+                    
+                </tr>
             </thead>
             <tbody>
+                {% for prod in productos %}
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ prod.id_boleta }}</td>
+                    <td>{{ prod.id_producto }}</td>
+                    <td>{{ prod.subtotal }}</td>
+                    <td>{{ prod.cantidad }}</td>
+                
                 </tr>
+                {% endfor %}
             </tbody>
+               
+            <tr><td><h6>Total Compra: {{ boleta_total }}</h6></td>
+            </tr>
         </table>
     </div>
     <footer >

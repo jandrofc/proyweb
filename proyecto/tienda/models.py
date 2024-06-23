@@ -1,5 +1,5 @@
 from django.db import models
-
+import datetime 
 # Create your models here.
 
 
@@ -57,28 +57,23 @@ class Producto(models.Model):
 
     
 
-
 class Estados(models.TextChoices):
     ('P', 'Pendiente'),
     ('E', 'Enviado'),
     ('R', 'Recibido'),
     ('C', 'Cancelado'),
 
+
 class Boleta(models.Model):
     id_boleta = models.AutoField(primary_key=True)
-    fecha_emitida     = models.DateTimeField(auto_now_add=True)
+    fecha_emitida = models.DateTimeField(blank=False, null=False, default = datetime.datetime.now)
     total     = models.IntegerField()
-    neto      = models.IntegerField()
-    iva       = models.IntegerField()
-    id_estado = models.CharField(max_length=1,choices=Estados.choices)
-    id_pago   = models.ForeignKey(Pago, on_delete=models.CASCADE)
-    id_Usuario= models.ForeignKey(Usuario, on_delete=models.CASCADE,default=1)
     productos = models.ManyToManyField(Producto)
-
+    
     def __str__(self):
-        return self.id_boleta
+        return str(self.id_boleta)
 
-class Despacho(models.TextChoices):
+'''class Despacho(models.TextChoices):
     ('D', 'Despachado'),
     ('N', 'No Despachado'),
     ('R', 'Recibido'),
@@ -92,7 +87,15 @@ class Detalle_compra(models.Model):
     productos = models.ManyToManyField(Producto)
     cantidad   = models.IntegerField()
     precio     = models.IntegerField()
+    id_boleta  = models.ForeignKey(Boleta, on_delete=models.CASCADE)'''
+
+class detalle_boleta(models.Model):
+    id_detalle = models.AutoField(primary_key=True)
+    cantidad   = models.IntegerField()
     id_boleta  = models.ForeignKey(Boleta, on_delete=models.CASCADE)
+    id_producto= models.ForeignKey(Producto, on_delete=models.CASCADE)
+    subtotal      = models.IntegerField()
+    estado     = models.CharField(max_length=1,choices=Estados.choices)
 
     def __str__(self):
         return self.id_detalle

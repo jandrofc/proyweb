@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from .carrito import Carrito
-from tienda.models import Categoria, Producto
+from tienda.models import Categoria, Producto,Boleta,detalle_boleta,Estados
 #se importan los tipos de formularios que se van a utilizar de forms.py
 from .forms import RegistroUserForm, CategoriaForm , ProductoForm
 
@@ -143,43 +143,72 @@ def EditarProductos (request,id):
 
 
 
-
-#boleta
-@login_required(login_url='Login')
-def Boleta (request):
-    return render(request,'Paginas/Boleta.html')
-
 #todo lo que esta relacionado con el carrito
-@login_required(login_url='Login')
-def tienda_carrito (request):
-    producto = producto.objects.all()
-    return render(request,'Paginas/Carrito.html',{'productos':Producto})
+def Tienda_carrito (request):
+    producto = Producto.objects.all()
+    return render(request,'Paginas/Carrito.html',{'productos':producto})
 
-def agragar_producto(request,id_producto):
+def agregar_producto(request, id_producto):
     carrito = Carrito(request)
-    producto = Producto.objects.get(id =id_producto)
+    producto = Producto.objects.get(id_producto =id_producto)
     carrito.agregar(producto)
-    return redirect("tienda:tienda")
+    return redirect("Galeria")
 
 def eliminar_producto(request,id_producto):
     carrito = Carrito(request)
-    producto = Producto.objects.get(id=id_producto)
+    producto = Producto.objects.get( id_producto =id_producto)
     carrito.eliminar(producto)
-    return redirect("tienda:tienda")
+    return redirect("Carrito")
+
+def sumar_producto(request,id_producto):
+    carrito = Carrito(request)
+    producto = Producto.objects.get( id_producto =id_producto)
+    carrito.agregar(producto)
+    return redirect("Carrito")
+
 
 def restar_producto(request,id_producto):
     carrito = Carrito(request)
-    producto = Producto.objects.get(id=id_producto)
+    producto = Producto.objects.get( id_producto =id_producto)
     carrito.restar(producto)
-    return redirect("tienda:tienda")
+    return redirect("Carrito")
 
 def limpiar_carrito(request):
     carrito = Carrito(request)
     carrito.limpiar()
-    return redirect("tienda:tienda")
-# mostrar en galeria
-def galeria(request):
-    productos = Producto.objects.all()  # Obtiene todos los productos
-    categorias = Categoria.objects.all()  # Obtiene todas las categorías
-    return render(request, 'Galeria.html', {'Producto': productos, 'categorias': categorias})
+    return redirect("Carrito")
+# Generar boleta
 
+def Boleta_detalle (request):
+    return render(request,'Paginas/Boleta.html')
+
+def boleta_boleta(request):
+    precio_total = 0
+    for keys, values in request.session["carrito"].items():
+        precio = values.get('precio', 0)  # Obtiene el precio o 0 si 'precio' no existe
+        cantidad = values.get('cantidad', 1)  # Asume 1 como cantidad predeterminada si no se especifica
+        precio_total += precio * cantidad
+    boleta = Boleta(total = precio_total)
+    boleta.save()
+    productos = []
+    for key, value in request.session["carrito"].items():
+        producto_iid = value.get('producto_id')  # Usa get para evitar KeyError
+        if producto_iid is not None:  # Continúa solo si producto_id existe
+            producto = Producto.objects.get(id_producto=producto_iid)
+            cant = value['cantidad']
+            total_boleta = cant * int(value['precio'])
+            detalle = detalle_boleta(cantidad = cant, subtotal = total_boleta, id_boleta = boleta, id_producto = producto)      
+            detalle.save()
+            productos.append(detalle)
+    datos = {
+        'boleta': boleta,
+        'productos': productos,
+        'boleta_total': precio_total,
+        'fecha': boleta.fecha_emitida
+    }
+    request.session['boleta'] = boleta.id_boleta
+    carrito = Carrito(request)
+    carrito.limpiar()
+    return render(request,'Paginas/Boleta.html',datos)
+
+    

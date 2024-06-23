@@ -1,4 +1,4 @@
-
+/*
 function MostrarCaja(e){
     //e.preventDefault();
     var id = e.currentTarget.id;  // Obtiene el id de la caja que se ha clickeado, la id la tiene el evento es deir e
@@ -72,3 +72,4 @@ function MostrarCaja(e){
 }
 
 
+*/

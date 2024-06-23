@@ -1,7 +1,9 @@
 from django.urls import path 
 from django.contrib.auth.decorators import login_required
 
-from .views import index,ListaProductos,eliminarProducto,ListaCategoria,eliminarCategoria,AñadirProducto,EditarCategoria,AñadirCategoria,Logout,Contactanos,Nosotros,Galeria,Login,Registro,Boleta,Carrito,EditarProductos
+from .views import index, Nosotros, Galeria, Contactanos, Login, Registro, Logout, EditarProductos, AñadirProducto, ListaProductos, eliminarProducto, EditarCategoria, AñadirCategoria, ListaCategoria, eliminarCategoria, Tienda_carrito, agregar_producto, eliminar_producto, restar_producto, sumar_producto, limpiar_carrito, boleta_boleta
+
+
 
 urlpatterns = [
     path('', index ,name='index'),
@@ -26,9 +28,18 @@ urlpatterns = [
     path('ListaCategoria',ListaCategoria ,name='ListaCategoria'),
     path('eliminar_categoria/<id>',eliminarCategoria ,name='eliminarCategoria'),
 
+    path('Carrito', Tienda_carrito , name='Carrito'),
 
-    path('Boleta', Boleta ,name='Boleta'),
-    path('Carrito', Carrito ,name='Carrito'),
+    path('agregar/<int:id_producto>/', agregar_producto, name='Agregar'),
+    path('eliminar/<int:id_producto>/', eliminar_producto, name='eliminar'),
+    path('restar/<int:id_producto>/', restar_producto, name='restar'),
+    path('sumar/<int:id_producto>/', sumar_producto, name='sumar'),
+    path('limpiar/', limpiar_carrito, name='limpiar'),
+    path('generarBoleta/', boleta_boleta,name="generarBoleta"),
+
+    
+
+
 
 
 ]
