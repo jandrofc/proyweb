@@ -29,7 +29,6 @@
                     <td>{{ categori.id_categoria }}</td>
                     <td>{{ categori.nombre }}</td>
                     <td>{{ categori.descripcion }}</td>
-                    <td>{{ categori.categoria }}</td>
                     {% if user.is_authenticated %}
                         <td>
                             <a href="{% url 'eliminarCategoria' categori.id_categoria %}" class="btn btn-danger">Eliminar</a>
