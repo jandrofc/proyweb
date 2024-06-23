@@ -49,8 +49,9 @@
             <thead>
                 <td>Nombre</td>
                 <td>Descripcion</td>
-                <td>PRECIO</td>
-                <td>CANTIDAD</td>
+                <td>Precio</td>
+                <td>Cantidad</td>
+                <td>Resumen</td>
             </thead>
             <tbody>
                 {% if request.session.carrito.items %}
@@ -59,19 +60,21 @@
                         <td>{{value.nombre}}</td>
                         <td>{{value.descripcion}}</td>
                         <td>{{value.precio}}</td>
-                        <td>{{value.cantidad}}</td>
+                        <td>{{value.cantidad}} <a href="{% url 'sumar' value.producto_id %}" class="badge btn btn-primary">+</a>
+                            <a href="{% url 'restar' value.producto_id %}" class="badge btn btn-danger">-</a></td>
                         <td>
-                            <br>
-                            <a href="{% url 'sumar' value.producto_id %}" class="badge btn btn-primary">+</a>
-                            <a href="{% url 'restar' value.producto_id %}" class="badge btn btn-warning">-</a>
                         </td>
                     </tr>
-                    
                     <tr>
-                        <th scope="row">Total : </th>
+                        <td colspan="3"></td>
+                        <th scope="row">Sub Total : </th>
                         <td colspan="2">$ {{value.total}}</td>
                     </tr>
                     {% endfor %}
+                    <tr>
+                        <td colspan="3"></td>
+                        <th scope="row">Total : </th>
+                        <td colspan="2">$ {{value.total}}</td>
                 {% else %}
                 <tr>
                     <td colspan="3">
@@ -81,7 +84,9 @@
                 {% endif %}
                 </tbody>
         </table>
-        <a href="{% url 'generarBoleta' %}">comprar</a>
+        {% if request.session.carrito.items %}
+        <a href="{% url 'generarBoleta' %}" class="btn btn-success">comprar</a>
+        {% endif %}
     </div>
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

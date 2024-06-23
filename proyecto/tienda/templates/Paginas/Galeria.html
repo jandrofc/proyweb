@@ -51,20 +51,20 @@
             {% for producto in productos %}
                 <div class="col-md-4 mb-4">
                     <div class="card">
+                        {% if producto.imagen %}
                         <img src="{{ producto.imagen.url }}" class="card-img-top" alt="{{ producto.nombre }}">
+                        {% else %}
+                        <div class="card-img-top" style="background-color: #e9ecef; height: 354px; weight:354px"></div>
+                        {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{ producto.nombre }}</h5>
                             <p class="card-text">{{ producto.descripcion }}</p>
                             <p class="card-text">Precio: ${{ producto.precio }}</p>
                             <p class="card-text">Stock: {{ producto.stock }}</p>
-                            <p class="card-text">Categoría: {{ producto.categoria.nombre }}</p>
                         </div>
-                        <a href="{% url 'Agregar' producto.id_producto %}">agregar carrito</a>
+                        <a href="{% url 'Agregar' producto.id_producto %}" class="btn btn-success">Agregar al carro</a>
                     </div>
-                    
                 </div>
-                
-
             {% empty %}
                 <p>No hay productos disponibles.</p>
             {% endfor %}

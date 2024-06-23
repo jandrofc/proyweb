@@ -64,6 +64,15 @@ class Estados(models.TextChoices):
     ('C', 'Cancelado'),
 
 
+
+'''class Boleta(models.Model):
+    id_boleta = models.AutoField(primary_key=True)
+    fecha_emitida = models.DateTimeField(blank=False, null=False, default = datetime.datetime.now)
+    total     = models.IntegerField()
+    def __str__(self):
+        return str(self.id_boleta)'''
+
+
 class Boleta(models.Model):
     id_boleta = models.AutoField(primary_key=True)
     fecha_emitida = models.DateTimeField(blank=False, null=False, default = datetime.datetime.now)
@@ -100,3 +109,17 @@ class detalle_boleta(models.Model):
     def __str__(self):
         return self.id_detalle
 
+"""class detalle_boleta(models.Model):
+    id_detalle = models.AutoField(primary_key=True)
+    cantidad   = models.IntegerField()
+    id_boleta  = models.ForeignKey(Boleta, on_delete=models.CASCADE)
+    iva        = models.IntegerField()
+    totalneto  = models.IntegerField()
+    total_a_pagar = models.IntegerField()
+    estado_pago     = models.CharField(max_length=1,choices=Estados.choices, default='P')
+    estado_despacho = models.CharField(max_length=1,choices=Despacho.choices, default='N')
+    productos = models.ManyToManyField(Producto)
+
+    def __str__(self):
+        return self.id_detalle
+"""
