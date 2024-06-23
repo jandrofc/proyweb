@@ -1,0 +1,102 @@
+{% extends "Cuenta/cuenta.html" %} 
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <title>Pinponcitos - Añadir categoria</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
+    
+    
+    <style>
+        label.error {
+            color:red;
+            font-size: 0.8em;
+            width:200px;
+        }
+    </style>
+    <script>
+        $(function(){
+            $("#formulario").validate({
+                rules:{
+                    Nombre: "required",
+                    Descripcion: "required",
+
+                },
+                messages:{
+                    Nombre:{
+                        required :'Ingrese un Nombre..',
+                    },
+                    Descripcion:{
+                        required: 'Ingrese una Descripcion..',
+                    },
+                }
+
+            })
+        })
+    </script>
+
+
+</head>
+<body>
+    <div class="container">
+        <h2>Creando Productos</h2>
+
+        <form method="POST" id="formulario" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <label for="{{ ProductoForm.nombre.id_for_label }}">
+                    {{ ProductoForm.nombre.label }}
+                </label>
+                {{ ProductoForm.nombre }}
+            </div>
+            <div class="row">
+                <label for="{{ ProductoForm.imagen.id_for_label }}">
+                    {{ ProductoForm.imagen.label }}
+                </label>
+                {{ ProductoForm.imagen }}
+            </div>
+            <div class="row">
+                <label for="{{ ProductoForm.precio.id_for_label }}">
+                    {{ ProductoForm.precio.label }}
+                </label>
+                {{ ProductoForm.precio }}
+            </div>
+
+            <div class="row">
+                <label for="{{ ProductoForm.stock.id_for_label }}">
+                    {{ ProductoForm.stock.label }}
+                </label>
+                {{ ProductoForm.stock }}
+            </div>
+
+            <div class="row">
+                <label for="{{ ProductoForm.categoria.id_for_label }}">
+                    {{ ProductoForm.categoria.label }}
+                </label>
+                {{ ProductoForm.categoria }}
+            </div>
+
+            <div class="row">
+                <label for="{{ ProductoForm.descripcion.id_for_label }}">
+                    {{ ProductoForm.descripcion.label }}
+                </label>
+                {{ ProductoForm.descripcion }}
+            </div>
+
+
+            <br><br>
+            <input type="submit" class="btn btn-primary" value="Enviar">
+            <a href="{% url 'index' %}" class="btn btn-success">Inicio</a>
+
+
+        </form>
+    </div>
+</body>
+</html>
+{% endblock %}
