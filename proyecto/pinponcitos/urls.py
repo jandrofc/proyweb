@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.urls import path , include 
 from django.conf.urls.static import static
-from tienda.views import agregar_producto, eliminar_producto, limpiar_carrito, restar_producto
+from tienda.views import boleta_boleta, agregar_producto, eliminar_producto, limpiar_carrito, restar_producto, sumar_producto
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,5 +27,7 @@ urlpatterns = [
     path('agregar/<int:id_producto>/', agregar_producto, name='Agregar'),
     path('eliminar/<int:id_producto>/', eliminar_producto, name='eliminar'),
     path('restar/<int:id_producto>/', restar_producto, name='restar'),
+    path('sumar/<int:id_producto>/', sumar_producto, name='sumar'),
     path('limpiar/', limpiar_carrito, name='limpiar'),
+    path('generarBoleta/', boleta_boleta,name="generarBoleta"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

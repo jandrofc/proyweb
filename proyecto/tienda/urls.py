@@ -1,7 +1,7 @@
 from django.urls import path 
 from django.contrib.auth.decorators import login_required
 
-from .views import index,Contactanos,Nosotros,Galeria,Login,Registro,Boleta,Carrito
+from .views import Boleta_detalle, index,Contactanos,Nosotros,Galeria,Login,Registro,Tienda_carrito
 
 urlpatterns = [
     path('', index ,name='index'),
@@ -10,8 +10,6 @@ urlpatterns = [
     path('Contactanos', Contactanos ,name='Contactanos'),
     path('Login', Login ,name='Login'),
     path('Registro', Registro ,name='Registro'),
-    path('Boleta', Boleta ,name='Boleta'),
-    path('Carrito', Carrito,name='Carrito'),
-
-
+    
+    path('Carrito', Tienda_carrito , name='Carrito'),
 ]
