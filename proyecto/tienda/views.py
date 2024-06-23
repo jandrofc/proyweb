@@ -91,13 +91,6 @@ def AñadirCategoria (request):
 
     return render(request,'Paginas/Administracion/AñadirCategoria.html',{'CategoriaForm':categoriaform})
 
-def ListaCategoria (request):
-    categoria = Categoria.objects.all()
-    datos = {
-        'categorias':categoria
-    }
-    return render(request,'Paginas/Administracion/ListaCategorias.html',datos)
-
 
 def EditarCategoria (request,id):
     ModificarCategoria=Categoria.objects.get(id_categoria=id) #buscamos el objeto
@@ -110,6 +103,18 @@ def EditarCategoria (request,id):
             formulario.save()
             return redirect ('ListaCategoria')
     return render(request, 'Paginas/Administracion/EditarCategoria.html', datos)
+
+def ListaProductos (request):
+    productos = Producto.objects.all()
+    datos = {
+        'Productos':productos
+    }
+    return render(request,'Paginas/Administracion/ListaProductos.html',datos)
+
+def eliminarProducto(request, id): 
+    ProductoEliminado = Producto.objects.get(id_producto=id) #similar a select * from... where...
+    ProductoEliminado.delete()
+    return redirect ('ListaProductos')
 
 
 def AñadirProducto (request):
@@ -124,8 +129,17 @@ def AñadirProducto (request):
 
     return render(request,'Paginas/Administracion/AñadirProducto.html',{'ProductoForm':productoform})
 
-def EditarProductos (request):
-    return render(request,'Paginas/Administracion/EditarProductos.html')
+def EditarProductos (request,id):
+    ModificarProducto=Producto.objects.get(id_producto=id) #buscamos el objeto
+    datos ={
+        'form':ProductoForm(instance=ModificarProducto)
+    }
+    if request.method=="POST":
+        formulario = ProductoForm(data=request.POST, instance=ModificarProducto)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect ('ListaProductos')
+    return render(request, 'Paginas/Administracion/EditarProductos.html', datos)
 
 
 
