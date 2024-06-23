@@ -1,26 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class Usuario(models.Model):
-    id_usuario = models.AutoField(primary_key=True)
-    rut        = models.CharField(max_length=8)
-    dv         = models.CharField(max_length=1)
-    nombre     = models.CharField(max_length=20)
-    apellido   = models.CharField(max_length=20)
-    correo     =  models.EmailField(max_length=20)
-    telefono   = models.CharField(max_length=11, null=True,blank=True)
-    contraseña  = models.CharField(max_length=30)
 
-class Administrador(models.Model):
-    id_admin = models.AutoField(primary_key=True)
-    activo   = models.BooleanField(default=True)
-    fecha_activivacion = models.DateTimeField(auto_now_add=True)
-    fecha_termino      = models.DateTimeField(auto_now_add=False, null=True, blank=True)
-    descripcion        = models.TextField(max_length=150, null=True, blank=True)
-
-class Cliente(models.Model):
-    id_cliente = models.AutoField(primary_key=True)
-    direccion  = models.CharField(max_length=60)
 
 class MetodoPago(models.TextChoices):
     TRANSFERENCIA = 'T', 'Transferencia'
@@ -31,6 +12,27 @@ class MetodoPago(models.TextChoices):
 class Pago(models.Model):
     id = models.CharField(max_length=1,choices=MetodoPago.choices,primary_key=True,)
     nombre = models.CharField(max_length=20)
+    def __str__(self):
+        return self.nombre
+
+class Usuario(models.Model):
+    id_usuario = models.AutoField(primary_key=True)
+    rut        = models.CharField(max_length=8,null=True,blank=True)
+    username   = models.CharField(max_length=20)
+    nombre     = models.CharField(max_length=20)
+    apellido   = models.CharField(max_length=20)
+    correo     =  models.EmailField(max_length=20)
+    telefono   = models.CharField(max_length=11, null=True,blank=True)
+    direccion  = models.CharField(max_length=60,null=True,blank=True)
+    TipoPago  = models.ForeignKey(Pago, on_delete=models.CASCADE ,null=True,blank=True)
+
+
+    def __str__(self):
+        return self.username
+
+
+
+
 
 class Categoria(models.Model):
     id_categoria = models.AutoField(primary_key=True,verbose_name="ID")
@@ -69,7 +71,7 @@ class Boleta(models.Model):
     iva       = models.IntegerField()
     id_estado = models.CharField(max_length=1,choices=Estados.choices)
     id_pago   = models.ForeignKey(Pago, on_delete=models.CASCADE)
-    id_cliente= models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    id_Usuario= models.ForeignKey(Usuario, on_delete=models.CASCADE)
     productos = models.ManyToManyField(Producto)
 
     def __str__(self):

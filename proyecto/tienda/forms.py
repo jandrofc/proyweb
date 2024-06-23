@@ -1,5 +1,5 @@
 from django import forms
-from .models import Usuario,Administrador,Cliente,MetodoPago,Pago,Categoria,Producto,Estados,Boleta
+from .models import Usuario,MetodoPago,Pago,Categoria,Producto,Estados,Boleta
 
 
 
