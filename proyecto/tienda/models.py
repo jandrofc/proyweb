@@ -54,36 +54,38 @@ class Producto(models.Model):
 
     def __str__(self):
         return self.nombre
-
-    
-class Boleta(models.Model):
-    id_boleta = models.AutoField(primary_key=True)
-    fecha_emitida = models.DateTimeField(blank=True, null=True, default = datetime.datetime.now)
-    total     = models.IntegerField()
-    
-    def __str__(self):
-        return str(self.id_boleta)
-
 class Despacho(models.TextChoices):
     DESPACHADO = 'D', 'Despachado'
     NO_DESPACHADO = 'N', 'No Despachado'
     RECIBIDO = 'R', 'Recibido'
-    CANCELADO = 'C', 'Cancelado'
 
 class EstadoPago(models.TextChoices):
     PAGADO = 'P', 'Pagado'
     NO_PAGADO = 'N', 'No Pagado'
     PENDIENTE = 'E', 'Pendiente'
 
-class DetalleBoleta(models.Model):
-    id_detalle = models.AutoField(primary_key=True)
-    boleta = models.ForeignKey(Boleta, on_delete=models.CASCADE, related_name='detalles')
+    
+class Boleta(models.Model):
+    id_boleta = models.AutoField(primary_key=True)
+    fecha_emitida = models.DateTimeField(blank=True, null=True, default = datetime.datetime.now)
     iva = models.IntegerField()
     total_neto = models.IntegerField()
     total_a_pagar = models.IntegerField()
     estado_pago = models.CharField(max_length=1, choices=EstadoPago.choices, default=EstadoPago.PENDIENTE)
     estado_despacho = models.CharField(max_length=1, choices=Despacho.choices, default=Despacho.NO_DESPACHADO)
-    productos = models.JSONField()
 
     def __str__(self):
-        return f"Detalle {self.id_detalle} de Boleta {self.boleta.id_boleta}"
+        return str(self.id_boleta)
+
+
+
+#Es el detalle de una fila de un producto del carro
+class DetalleBoleta(models.Model): 
+    id_detalle = models.AutoField(primary_key=True)
+    id_boleta = models.ForeignKey('Boleta', on_delete=models.CASCADE, related_name='detalles')
+    id_producto = models.ForeignKey('Producto', on_delete=models.CASCADE)
+    subtotal = models.IntegerField()
+    cantidad = models.IntegerField()
+
+    def __str__(self):
+        return str(self.id_detalle)

@@ -1,7 +1,7 @@
 from django.urls import path 
 from django.contrib.auth.decorators import login_required
 
-from .views import index, Nosotros, Galeria, Contactanos, Login, Registro, Logout, EditarProductos, AñadirProducto, ListaProductos, eliminarProducto, EditarCategoria, AñadirCategoria, ListaCategoria, eliminarCategoria, Tienda_carrito, agregar_producto, eliminar_producto, restar_producto, sumar_producto, limpiar_carrito, Detalle_Boleta
+from .views import index, Nosotros, Galeria, Contactanos, Login, Registro, Logout, EditarProductos, AñadirProducto, ListaProductos, eliminarProducto, EditarCategoria, AñadirCategoria, ListaCategoria, eliminarCategoria, Tienda_carrito, agregar_producto, eliminar_producto, restar_producto, sumar_producto, limpiar_carrito, Pagina_Boleta
 
 
 
@@ -38,7 +38,7 @@ urlpatterns = [
 
 
 
-    path('Boleta/', Detalle_Boleta,name="GenerarBoleta"),
+    path('Boleta/', Pagina_Boleta,name="GenerarBoleta"),
 
     
 

@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from .carrito import Carrito
-from tienda.models import Categoria, Producto,Boleta,DetalleBoleta
+from tienda.models import Categoria, Producto,Boleta, DetalleBoleta
 #se importan los tipos de formularios que se van a utilizar de forms.py
 from .forms import RegistroUserForm, CategoriaForm , ProductoForm
 
@@ -185,10 +185,72 @@ def limpiar_carrito(request):
 
 # Generar boleta
 
+
+
+def Pagina_Boleta (request):
+    
+    if request.session['carrito'] == {}:
+        return redirect('Galeria')
+    
+    precio_total=0
+    IVA=0.19
+    for key, value in request.session['carrito'].items():
+        precio_total = precio_total + int(value['precio']) * int(value['cantidad'])
+    
+    total_neto = precio_total*(1-IVA)
+    total_iva = round(precio_total*IVA,0)
+
+
+    #neto es el total de los productos sin iva al consumidor
+    #neto mas 19% de iva es el total que el consumidor debe pagar
+
+    EstadoPago = 'E'
+    EstadoDespacho = 'N'
+    
+    boleta = Boleta(iva=total_iva, total_neto=total_neto, total_a_pagar=precio_total, estado_pago=EstadoPago, estado_despacho=EstadoDespacho)
+    boleta.save()
+    
+    productos = []
+    for key, value in request.session['carrito'].items():
+            producto = Producto.objects.get(id_producto = value['producto_id'])
+            cant = value['cantidad']
+            subtotal = cant * int(value['precio'])
+            detalle = DetalleBoleta(id_boleta = boleta, id_producto = producto, cantidad = cant, subtotal = subtotal)
+            detalle.save()
+            productos.append(detalle)
+    datos={
+        'productos':productos,
+        'fecha':boleta.fecha_emitida,
+        'iva':boleta.iva,
+        'total_neto':boleta.total_neto,
+        'total_a_pagar':boleta.total_a_pagar,
+        'estado_pago':boleta.estado_pago,
+        'estado_despacho':boleta.estado_despacho,
+        'id_boleta':boleta.id_boleta,
+
+    }
+    #request.session['boleta'] = boleta.id_boleta
+    carrito = Carrito(request)
+    carrito.limpiar()
+    return render(request, 'Paginas/Boleta.html',datos)
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
 def Detalle_Boleta(request):
     
     total_productos = sum([1 for values in request.session["carrito"].values()])
-    boleta = {}
+    productos = {}
     precio_total = 0
     IVA=0.19
 
@@ -196,7 +258,7 @@ def Detalle_Boleta(request):
     #neto mas 19% de iva es el total que el consumidor debe pagar
 
     for keys, values in request.session["carrito"].items():
-        boleta={
+        productos={
             values.get('producto_id'): {
                 "id_producto" : values.get('producto_id'),
                 "nombre": values.get('nombre'),
@@ -208,17 +270,36 @@ def Detalle_Boleta(request):
         }
         precio_total = precio_total + values.get('subtotal', 0)
 
-    precio_total = precio_total * (IVA+1) 
-    Boleta( total = precio_total).save()
+    precio_bruto = precio_total * (IVA+1) 
+    iva = round(precio_bruto * IVA,0)
 
-    id_boleta = Boleta.objects.latest('id_boleta')
-    iva = round(precio_total * IVA,0)
     total_neto = precio_total
-    total_a_pagar = precio_total + iva
     EstadoPago = 'E'
     EstadoDespacho = 'N'
-    DetalleBoleta(boleta = id_boleta, iva = iva, total_neto = total_neto, total_a_pagar = total_a_pagar, estado_pago = EstadoPago, estado_despacho = EstadoDespacho, productos = boleta).save()
+    Nueva_Boleta=Boleta(iva = iva, total_neto = total_neto, total_a_pagar = precio_bruto, estado_pago = EstadoPago, estado_despacho = EstadoDespacho, productos = productos)
+    Nueva_Boleta.save()
 
     carrito = Carrito(request)
     carrito.limpiar()
-    return render(request,'Paginas/Boleta.html',id_boleta)
+
+   
+
+    return redirect('Mostrar_Boleta', id_boleta=Nueva_Boleta.id_boleta)
+
+def Mostrar_Boleta(request,id_boleta):
+    
+    Boleta = Boleta.objects.get(id_boleta=id_boleta)
+
+    datos = {
+        'boleta': Boleta.id_boleta,
+        'fecha': Boleta.fecha_emitida,
+        'iva': Boleta.iva,
+        'total_neto': Boleta.total_neto,
+        'total_a_pagar': Boleta.total_a_pagar,
+        'estado_pago': Boleta.estado_pago,
+        'estado_despacho': Boleta.estado_despacho,
+        'productos': Boleta.productos
+    }
+
+    return render(request, 'Pagina_Boleta', datos)
+"""
