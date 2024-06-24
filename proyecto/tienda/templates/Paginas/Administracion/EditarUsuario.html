@@ -11,21 +11,17 @@
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
-    <title>Pinponcitos - Modificar-Producto</title>
+    <title>Pinponcitos - Modificar-Usuario</title>
     <script>
         $(function(){
             $("#formulario").validate({
                 rules:{
-                    Nombre: "required",
-                    Descripcion: "required",
+                    Username: "required",
 
                 },
                 messages:{
-                    Nombre:{
-                        required :'Ingrese un Nombre...',
-                    },
-                    Descripcion:{
-                        required: 'Ingrese una Descripcion...',
+                    Username:{
+                        required: 'Ingrese un Nombre de Usuario...',
                     },
                 }
 
@@ -35,9 +31,15 @@
 </head>
 <body>
     <div class="container">
-        <h2>Modificar Producto </h2>
+        <h2>Modificar Usuario </h2>
         <form method="POST" id="formulario">
             {% csrf_token %}
+            <div class="row">
+                <label for="{{ form.field.name }}">
+                    {{ form.username.label }}
+                </label>
+                {{ form.username }}
+            </div>
             <div class="row">
                 <label for="{{ form.field.name }}">
                     {{ form.nombre.label }}
@@ -46,33 +48,27 @@
             </div>
             <div class="row">
                 <label for="{{ form.field.name }}">
-                    {{ form.imagen.label }}
+                    {{ form.apellido.label }}
                 </label>
-                {{ form.imagen }}
+                {{ form.apellido }}
             </div>
             <div class="row">
                 <label for="{{ form.field.name }}">
-                    {{ form.precio.label }}
+                    {{ form.correo.label }}
                 </label>
-                {{ form.precio }}
+                {{ form.correo }}
             </div>
             <div class="row">
                 <label for="{{ form.field.name }}">
-                    {{ form.stock.label }}
+                    {{ form.telefono.label }}
                 </label>
-                {{ form.stock }}
+                {{ form.telefono }}
             </div>
             <div class="row">
                 <label for="{{ form.field.name }}">
-                    {{ form.categoria.label }}
+                    {{ form.direccion.label }}
                 </label>
-                {{ form.categoria }}
-            </div>
-            <div class="row">
-                <label for="{{ form.field.name }}">
-                    {{ form.descripcion.label }}
-                </label>
-                {{ form.descripcion }}
+                {{ form.direccion }}
             </div>
             
             <br><br>

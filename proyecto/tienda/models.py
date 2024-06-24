@@ -1,12 +1,13 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 import datetime 
 # Create your models here.
 
 
 class MetodoPago(models.TextChoices):
-    TRANSFERENCIA = 'T', 'Transferencia'
-    TARJETA       = 'C', 'Tarjeta'
-    EFECTIVO      = 'E', 'Efectivo'
+    TRANSFERENCIA = 'T', _('Transferencia')
+    TARJETA       = 'C', _('Tarjeta')
+    EFECTIVO      = 'E', _('Efectivo')
 
 #crear esos 3 valores inmediatamente
 
