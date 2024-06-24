@@ -19,7 +19,26 @@ class RegistroUserForm(UserCreationForm):
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError('El correo ya está registrado')
         return email
-    
+
+class PagoForm(forms.ModelForm):
+    id = forms.ChoiceField(
+        choices=MetodoPago.choices,
+        widget=forms.Select(attrs={
+            'placeholder': 'Seleccione un tipo de pago..',
+            'class': 'form-control'
+        }),
+        label='Tipo de pago',
+        required=True
+    )
+
+    class Meta:
+        model = Pago
+        fields = ['nombre']
+        labels = {
+            'nombre': 'Nombre',
+        }
+        
+
 class UsuarioForm(forms.ModelForm):
     class Meta:
         model = Usuario

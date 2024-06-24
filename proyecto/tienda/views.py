@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from .carrito import Carrito
 from tienda.models import Categoria, Producto,Boleta, Usuario,detalle_boleta,Estados
 #se importan los tipos de formularios que se van a utilizar de forms.py
-from .forms import RegistroUserForm, CategoriaForm , ProductoForm, UsuarioForm
+from .forms import PagoForm, RegistroUserForm, CategoriaForm , ProductoForm, UsuarioForm
 
 #aletar con mensaje de error o exito en formularios
 from django.contrib import messages
@@ -250,23 +250,59 @@ def boleta_boleta(request):
     carrito.limpiar()
     return render(request,'Paginas/Boleta.html',datos)
 
+'''def verificarDatos(request):
+    if request.user.is_authenticated:
+        correo = request.user.email
+        try:
+            usuario = Usuario.objects.get(correo=correo)
+            if usuario.direccion not in [None, ""]:
+                return render(request, 'Paginas/DatosCompra.html')
+            else:
+                return render(request, 'Paginas/Boleta.html')
+        except Usuario.DoesNotExist:
+            messages.error(request, 'Usuario no encontrado')
+            return redirect('')
+    else:
+        messages.error(request, 'Por favor inicie sesión')
+        return redirect('Login')
+
+def DatosCompra (request):
+    if request.method == 'POST':
+        usuarioform= UsuarioForm(request.POST)
+        pagoform= PagoForm(request.POST, request.FILES)
+        if usuarioform.is_valid() and pagoform.is_valid():
+            usuarioform.save()
+            pagoform.save()
+            messages.success(request, 'Usuario creado exitosamente')
+            return redirect('DatosCompra')
+    else:
+        usuarioform = UsuarioForm()
+        pagoform = PagoForm()
+    
+    return render(request,'Paginas/DatosCompra.html', {'UsuarioForm':usuarioform, 'PagoForm':pagoform})'''
+
 def verificarDatos(request):
     usuario = Usuario(request)
-    if usuario.direccion != None or usuario.TipoPago != None:
+    if usuario.direccion not in [None, ""]:
         return render(request, 'Paginas/Boleta.html')
     if request.method == 'POST':
         usuarioform= UsuarioForm(request.POST, request.FILES)
-        if usuarioform.is_valid():
+        pagoform= PagoForm(request.POST, request.FILES)
+        if usuarioform.is_valid() and pagoform.is_valid():
             usuarioform.save()
+            pagoform.save()
             messages.success(request, 'Usuario creado exitosamente')
-            if usuario.direccion != None or usuario.TipoPago != None:
+            if usuario.direccion not in [None, ""]:
                 return render(request, 'Paginas/Boleta.html')
             else:
                 return render(request, 'Paginas/DatosCompra.html')
     else:
         usuarioform = UsuarioForm()
-    
-    return render(request, 'Paginas/DatosCompra.html', {'UsuarioForm':usuarioform})
+        pagoform = PagoForm()
 
-
+    context = {
+        'UsuarioForm':usuarioform,
+        'PagoForm':pagoform
+    }
     
+    return render(request, 'Paginas/DatosCompra.html', context)
