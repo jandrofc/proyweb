@@ -22,12 +22,11 @@ class Carrito:
                 "precio": Producto.precio,
                 "categoria": Producto.categoria.nombre,
                 "cantidad" : 1,
-                "total": Producto.precio
+                "subtotal": Producto.precio
             }
         else: 
             self.carrito[id]["cantidad"] +=1
-            self.carrito[id]["precio"] = Producto.precio
-            self.carrito[id]["total"] += Producto.precio
+            self.carrito[id]["subtotal"] += Producto.precio
         self.guardar_carrito()
     
     def guardar_carrito(self):
@@ -35,6 +34,7 @@ class Carrito:
         self.session.modified = True
 
     def eliminar(self,Producto):
+        id = str(Producto.id_producto)
         if id in self.carrito:
             del self.carrito[id]
             self.guardar_carrito()
@@ -42,11 +42,13 @@ class Carrito:
         id = str(Producto.id_producto)
         if id  in self.carrito.keys():
             self.carrito[id]["cantidad"] -= 1
-            self.carrito[id]["total"] -= Producto.precio
-            if self.carrito[id]["cantidad"] < 1 : self.eliminar(Producto)
+            self.carrito[id]["subtotal"] -= Producto.precio
+            if self.carrito[id]["cantidad"] < 1 : 
+                self.eliminar(Producto)
             self.guardar_carrito()
     
     def limpiar(self):
         self.carrito["carrito"] = {}
         self.session.modified = True
-        
+    
+
