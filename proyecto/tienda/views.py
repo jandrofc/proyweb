@@ -208,12 +208,17 @@ def Detalle_Boleta(request):
         }
         precio_total = precio_total + values.get('subtotal', 0)
 
-    precio_total = precio_total * IVA 
+    precio_total = precio_total * (IVA+1) 
     Boleta( total = precio_total).save()
 
-    
-    
-    request.session['boleta'] = boleta.id_boleta
+    id_boleta = Boleta.objects.latest('id_boleta')
+    iva = round(precio_total * IVA,0)
+    total_neto = precio_total
+    total_a_pagar = precio_total + iva
+    EstadoPago = 'E'
+    EstadoDespacho = 'N'
+    DetalleBoleta(boleta = id_boleta, iva = iva, total_neto = total_neto, total_a_pagar = total_a_pagar, estado_pago = EstadoPago, estado_despacho = EstadoDespacho, productos = boleta).save()
+
     carrito = Carrito(request)
     carrito.limpiar()
-    return render(request,'Paginas/Boleta.html',datos)
+    return render(request,'Paginas/Boleta.html',id_boleta)

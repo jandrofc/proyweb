@@ -78,7 +78,6 @@ class EstadoPago(models.TextChoices):
 class DetalleBoleta(models.Model):
     id_detalle = models.AutoField(primary_key=True)
     boleta = models.ForeignKey(Boleta, on_delete=models.CASCADE, related_name='detalles')
-    cantidad = models.IntegerField()
     iva = models.IntegerField()
     total_neto = models.IntegerField()
     total_a_pagar = models.IntegerField()
