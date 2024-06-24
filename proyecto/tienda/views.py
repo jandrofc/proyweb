@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from .carrito import Carrito
-from tienda.models import Categoria, Producto,Boleta,detalle_boleta,Estados
+from tienda.models import Categoria, Producto,Boleta,DetalleBoleta
 #se importan los tipos de formularios que se van a utilizar de forms.py
 from .forms import RegistroUserForm, CategoriaForm , ProductoForm
 
@@ -178,38 +178,42 @@ def limpiar_carrito(request):
     carrito = Carrito(request)
     carrito.limpiar()
     return redirect("Carrito")
+
+
+
+
+
 # Generar boleta
 
-def Boleta_detalle (request):
-    return render(request,'Paginas/Boleta.html')
-
-def boleta_boleta(request):
+def Detalle_Boleta(request):
+    
+    total_productos = sum([1 for values in request.session["carrito"].values()])
+    boleta = {}
     precio_total = 0
+    IVA=0.19
+
+    #neto es el total de los productos sin iva al consumidor
+    #neto mas 19% de iva es el total que el consumidor debe pagar
+
     for keys, values in request.session["carrito"].items():
-        precio = values.get('precio', 0)  # Obtiene el precio o 0 si 'precio' no existe
-        cantidad = values.get('cantidad', 1)  # Asume 1 como cantidad predeterminada si no se especifica
-        precio_total += precio * cantidad
-    boleta = Boleta(total = precio_total)
-    boleta.save()
-    productos = []
-    for key, value in request.session["carrito"].items():
-        producto_iid = value.get('producto_id')  # Usa get para evitar KeyError
-        if producto_iid is not None:  # Continúa solo si producto_id existe
-            producto = Producto.objects.get(id_producto=producto_iid)
-            cant = value['cantidad']
-            total_boleta = cant * int(value['precio'])
-            detalle = detalle_boleta(cantidad = cant, subtotal = total_boleta, id_boleta = boleta, id_producto = producto)      
-            detalle.save()
-            productos.append(detalle)
-    datos = {
-        'boleta': boleta,
-        'productos': productos,
-        'boleta_total': precio_total,
-        'fecha': boleta.fecha_emitida
-    }
+        boleta={
+            values.get('producto_id'): {
+                "id_producto" : values.get('producto_id'),
+                "nombre": values.get('nombre'),
+                "precio": values.get('precio'),
+                "categoria": values.get('categoria'),
+                "cantidad" : values.get('cantidad'),
+                "subtotal": values.get('subtotal')
+            }
+        }
+        precio_total = precio_total + values.get('subtotal', 0)
+
+    precio_total = precio_total * IVA 
+    Boleta( total = precio_total).save()
+
+    
+    
     request.session['boleta'] = boleta.id_boleta
     carrito = Carrito(request)
     carrito.limpiar()
     return render(request,'Paginas/Boleta.html',datos)
-
-    
