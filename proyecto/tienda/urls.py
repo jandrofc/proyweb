@@ -1,7 +1,7 @@
 from django.urls import path 
 from django.contrib.auth.decorators import login_required
 
-from .views import index, Nosotros, Galeria, Contactanos, Login, Registro, Logout, EditarProductos, AñadirProducto, ListaProductos, eliminarProducto, EditarCategoria, AñadirCategoria, ListaCategoria, eliminarCategoria, Tienda_carrito, agregar_producto, eliminar_producto, restar_producto, sumar_producto, limpiar_carrito, boleta_boleta
+from .views import EditarUsuario, ListaUsuarios, AñadirUsuario, eliminarUsuario, index, Nosotros, Galeria, Contactanos, Login, Registro, Logout, EditarProductos, AñadirProducto, ListaProductos, eliminarProducto, EditarCategoria, AñadirCategoria, ListaCategoria, eliminarCategoria, Tienda_carrito, agregar_producto, eliminar_producto, restar_producto, sumar_producto, limpiar_carrito, boleta_boleta, verificarDatos
 
 
 
@@ -14,14 +14,16 @@ urlpatterns = [
     path('Login', Login ,name='Login'),
     path('Registro', Registro ,name='Registro'),
     path('logout', Logout, name='logout'),
+
+    path('EditarUsuario/<id>',EditarUsuario ,name='EditarUsuario'),
+    path('AñadirUsuario',AñadirUsuario ,name='AñadirUsuario'),
+    path('ListaUsuarios',ListaUsuarios ,name='ListaUsuarios'),
+    path('eliminar_usuario/<id>',eliminarUsuario ,name='eliminarUsuario'),
     
     path('EditarProducto/<id>',EditarProductos ,name='EditarProducto'),
     path('AñadirProducto',AñadirProducto ,name='AñadirProducto'),
     path('ListaProductos',ListaProductos ,name='ListaProductos'),
     path('eliminar_producto/<id>',eliminarProducto ,name='eliminarProducto'),
-
-
-
 
     path('EditarCategoria/<id>',EditarCategoria ,name='EditarCategoria'),
     path('AñadirCategoria',AñadirCategoria ,name='AñadirCategoria'),
@@ -36,6 +38,7 @@ urlpatterns = [
     path('sumar/<int:id_producto>/', sumar_producto, name='sumar'),
     path('limpiar/', limpiar_carrito, name='limpiar'),
     path('generarBoleta/', boleta_boleta,name="generarBoleta"),
+    path('verificarDatos/', verificarDatos,name="verificarDatos"),
 
     
 

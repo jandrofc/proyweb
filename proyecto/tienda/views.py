@@ -2,9 +2,9 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from .carrito import Carrito
-from tienda.models import Categoria, Producto,Boleta,detalle_boleta,Estados
+from tienda.models import Categoria, Producto,Boleta, Usuario,detalle_boleta,Estados
 #se importan los tipos de formularios que se van a utilizar de forms.py
-from .forms import RegistroUserForm, CategoriaForm , ProductoForm
+from .forms import RegistroUserForm, CategoriaForm , ProductoForm, UsuarioForm
 
 #aletar con mensaje de error o exito en formularios
 from django.contrib import messages
@@ -69,6 +69,42 @@ def Logout (request):
     return redirect('index')
 
 #Administracion
+def ListaUsuarios (request):
+    usuarios = Usuario.objects.all()
+    datos = {
+        'Usuarios':usuarios
+    }
+    return render(request,'Paginas/Administracion/ListaUsuarios.html',datos)
+
+def eliminarUsuario(request, id):
+    usuarioEliminado = Usuario.objects.get(id_usuario=id) #similar a select * from... where...
+    usuarioEliminado.delete()
+    return redirect ('ListaUsuarios')
+
+def AñadirUsuario (request):
+    if request.method == 'POST':
+        usuarioform= UsuarioForm(request.POST, request.FILES)
+        if usuarioform.is_valid():
+            usuarioform.save()
+            messages.success(request, 'Usuario creado exitosamente')
+            return redirect('AñadirUsuario')
+    else:
+        usuarioform = UsuarioForm()
+
+    return render(request,'Paginas/Administracion/AñadirUsuario.html',{'UsuarioForm':usuarioform})
+
+def EditarUsuario (request,id):
+    ModificarUsuario=Usuario.objects.get(id_usuario=id) #buscamos el objeto
+    datos ={
+        'form':UsuarioForm(instance=ModificarUsuario)
+    }
+    if request.method=="POST":
+        formulario = UsuarioForm(data=request.POST, instance=ModificarUsuario)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect ('ListaUsuarios')
+    return render(request, 'Paginas/Administracion/EditarUsuario.html', datos)
+
 def ListaCategoria (request):
     categoria = Categoria.objects.all()
     datos = {
@@ -196,6 +232,7 @@ def boleta_boleta(request):
         producto_iid = value.get('producto_id')  # Usa get para evitar KeyError
         if producto_iid is not None:  # Continúa solo si producto_id existe
             producto = Producto.objects.get(id_producto=producto_iid)
+            estado_compra= 'Recibido'
             cant = value['cantidad']
             total_boleta = cant * int(value['precio'])
             detalle = detalle_boleta(cantidad = cant, subtotal = total_boleta, id_boleta = boleta, id_producto = producto)      
@@ -205,11 +242,31 @@ def boleta_boleta(request):
         'boleta': boleta,
         'productos': productos,
         'boleta_total': precio_total,
-        'fecha': boleta.fecha_emitida
+        'fecha': boleta.fecha_emitida,
+        'estado': estado_compra
     }
     request.session['boleta'] = boleta.id_boleta
     carrito = Carrito(request)
     carrito.limpiar()
     return render(request,'Paginas/Boleta.html',datos)
+
+def verificarDatos(request):
+    usuario = Usuario(request)
+    if usuario.direccion != None or usuario.TipoPago != None:
+        return render(request, 'Paginas/Boleta.html')
+    if request.method == 'POST':
+        usuarioform= UsuarioForm(request.POST, request.FILES)
+        if usuarioform.is_valid():
+            usuarioform.save()
+            messages.success(request, 'Usuario creado exitosamente')
+            if usuario.direccion != None or usuario.TipoPago != None:
+                return render(request, 'Paginas/Boleta.html')
+            else:
+                return render(request, 'Paginas/DatosCompra.html')
+    else:
+        usuarioform = UsuarioForm()
+    
+    return render(request, 'Paginas/DatosCompra.html', {'UsuarioForm':usuarioform})
+
 
     

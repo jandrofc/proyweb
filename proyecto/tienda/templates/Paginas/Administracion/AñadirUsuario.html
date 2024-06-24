@@ -1,0 +1,103 @@
+{% extends "Cuenta/cuenta.html" %} 
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <title>Pinponcitos - Añadir Usuario</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
+    
+    
+    <style>
+        label.error {
+            color:red;
+            font-size: 0.8em;
+            width:200px;
+        }
+    </style>
+    <script>
+        $(function(){
+            $("#formulario").validate({
+                rules:{
+                    Rut: "required",
+                    Username: "required",
+
+                },
+                messages:{
+                    Rut:{
+                        required :'Ingrese un Rut..',
+                    },
+                    Username:{
+                        required: 'Ingrese un Nombre de Usuario...',
+                    },
+                }
+
+            })
+        })
+    </script>
+
+
+</head>
+<body>
+    <div class="container">
+        <h2>Creando Usuario </h2>
+        <form method="POST" id="formulario" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <label for="{{ UsuarioForm.nombre.id_for_label }}">
+                    {{ UsuarioForm.rut.label }}
+                </label>
+                {{ UsuarioForm.rut }}
+            </div>
+            <div class="row">
+                <label for="{{ UsuarioForm.nombre.id_for_label }}">
+                    {{ UsuarioForm.username.label }}
+                </label>
+                {{ UsuarioForm.username }}
+            </div>
+            <div class="row">
+                <label for="{{ UsuarioForm.nombre.id_for_label }}">
+                    {{ UsuarioForm.nombre.label }}
+                </label>
+                {{ UsuarioForm.nombre }}
+            </div>
+            <div class="row">
+                <label for="{{ UsuarioForm.nombre.id_for_label }}">
+                    {{ UsuarioForm.apellido.label }}
+                </label>
+                {{ UsuarioForm.apellido }}
+            </div>
+            <div class="row">
+                <label for="{{ UsuarioForm.nombre.id_for_label }}">
+                    {{ UsuarioForm.correo.label }}
+                </label>
+                {{ UsuarioForm.correo }}
+            </div>
+            <div class="row">
+                <label for="{{ UsuarioForm.nombre.id_for_label }}">
+                    {{ UsuarioForm.telefono.label }}
+                </label>
+                {{ UsuarioForm.telefono }}
+            </div>
+            <div class="row">
+                <label for="{{ UsuarioForm.nombre.id_for_label }}">
+                    {{ UsuarioForm.direccion.label }}
+                </label>
+                {{ UsuarioForm.direccion }}
+            </div>
+            
+            <br><br>
+            <input type="submit" class="btn btn-primary" value="Enviar" onclick="alert('Usuario Creado Exitosamente')">
+            <a href="{% url 'index' %}" class="btn btn-success">Inicio</a>
+
+
+        </form>
+    </div>
+</body>
+</html>
+{% endblock %}
