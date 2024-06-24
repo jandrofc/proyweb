@@ -197,8 +197,8 @@ def Pagina_Boleta (request):
     for key, value in request.session['carrito'].items():
         precio_total = precio_total + int(value['precio']) * int(value['cantidad'])
     
-    total_neto = precio_total*(1-IVA)
-    total_iva = round(precio_total*IVA,0)
+    total_neto = int(round(precio_total*(1-IVA)))
+    total_iva = int(round(precio_total*IVA,0))
 
 
     #neto es el total de los productos sin iva al consumidor
