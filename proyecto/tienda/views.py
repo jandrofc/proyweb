@@ -1,10 +1,10 @@
 from django.shortcuts import redirect, render
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import authenticate, login, logout
 from .carrito import Carrito
-from tienda.models import Categoria, Producto,Boleta, Usuario,detalle_boleta,Estados
+from tienda.models import Categoria, Pago, Producto,Boleta, Usuario,detalle_boleta,Estados
 #se importan los tipos de formularios que se van a utilizar de forms.py
-from .forms import PagoForm, RegistroUserForm, CategoriaForm , ProductoForm, UsuarioForm
+from .forms import RegistroUserForm, CategoriaForm , ProductoForm, UsuarioForm
 
 #aletar con mensaje de error o exito en formularios
 from django.contrib import messages
@@ -69,6 +69,10 @@ def Logout (request):
     return redirect('index')
 
 #Administracion
+def check_admin(user):
+    return user.groups.filter(name='Admin').exists()
+
+@user_passes_test(check_admin)
 def ListaUsuarios (request):
     usuarios = Usuario.objects.all()
     datos = {
@@ -76,11 +80,13 @@ def ListaUsuarios (request):
     }
     return render(request,'Paginas/Administracion/ListaUsuarios.html',datos)
 
+@user_passes_test(check_admin)
 def eliminarUsuario(request, id):
     usuarioEliminado = Usuario.objects.get(id_usuario=id) #similar a select * from... where...
     usuarioEliminado.delete()
     return redirect ('ListaUsuarios')
 
+@user_passes_test(check_admin)
 def AñadirUsuario (request):
     if request.method == 'POST':
         usuarioform= UsuarioForm(request.POST, request.FILES)
@@ -93,6 +99,7 @@ def AñadirUsuario (request):
 
     return render(request,'Paginas/Administracion/AñadirUsuario.html',{'UsuarioForm':usuarioform})
 
+@user_passes_test(check_admin)
 def EditarUsuario (request,id):
     ModificarUsuario=Usuario.objects.get(id_usuario=id) #buscamos el objeto
     datos ={
@@ -105,17 +112,21 @@ def EditarUsuario (request,id):
             return redirect ('ListaUsuarios')
     return render(request, 'Paginas/Administracion/EditarUsuario.html', datos)
 
+@user_passes_test(check_admin)
 def ListaCategoria (request):
     categoria = Categoria.objects.all()
     datos = {
         'categorias':categoria
     }
     return render(request,'Paginas/Administracion/ListaCategorias.html',datos)
+
+@user_passes_test(check_admin)
 def eliminarCategoria(request, id): 
     categoriaEliminada = Categoria.objects.get(id_categoria=id) #similar a select * from... where...
     categoriaEliminada.delete()
     return redirect ('ListaCategoria')
 
+@user_passes_test(check_admin)
 def AñadirCategoria (request):
     if request.method == 'POST':
         categoriaform= CategoriaForm(request.POST, request.FILES)
@@ -128,7 +139,7 @@ def AñadirCategoria (request):
 
     return render(request,'Paginas/Administracion/AñadirCategoria.html',{'CategoriaForm':categoriaform})
 
-
+@user_passes_test(check_admin)
 def EditarCategoria (request,id):
     ModificarCategoria=Categoria.objects.get(id_categoria=id) #buscamos el objeto
     datos ={
@@ -141,6 +152,7 @@ def EditarCategoria (request,id):
             return redirect ('ListaCategoria')
     return render(request, 'Paginas/Administracion/EditarCategoria.html', datos)
 
+@user_passes_test(check_admin)
 def ListaProductos (request):
     productos = Producto.objects.all()
     datos = {
@@ -148,12 +160,13 @@ def ListaProductos (request):
     }
     return render(request,'Paginas/Administracion/ListaProductos.html',datos)
 
+@user_passes_test(check_admin)
 def eliminarProducto(request, id): 
     ProductoEliminado = Producto.objects.get(id_producto=id) #similar a select * from... where...
     ProductoEliminado.delete()
     return redirect ('ListaProductos')
 
-
+@user_passes_test(check_admin)
 def AñadirProducto (request):
     if request.method == 'POST':
         productoform= ProductoForm(request.POST, request.FILES)
@@ -166,6 +179,7 @@ def AñadirProducto (request):
 
     return render(request,'Paginas/Administracion/AñadirProducto.html',{'ProductoForm':productoform})
 
+@user_passes_test(check_admin)
 def EditarProductos (request,id):
     ModificarProducto=Producto.objects.get(id_producto=id) #buscamos el objeto
     datos ={
@@ -181,6 +195,7 @@ def EditarProductos (request,id):
 
 
 #todo lo que esta relacionado con el carrito
+@login_required(login_url='Login')
 def Tienda_carrito (request):
     producto = Producto.objects.all()
     return render(request,'Paginas/Carrito.html',{'productos':producto})
@@ -216,9 +231,11 @@ def limpiar_carrito(request):
     return redirect("Carrito")
 # Generar boleta
 
+@login_required(login_url='Login')
 def Boleta_detalle (request):
     return render(request,'Paginas/Boleta.html')
 
+@login_required(login_url='Login')
 def boleta_boleta(request):
     precio_total = 0
     for keys, values in request.session["carrito"].items():
@@ -249,60 +266,3 @@ def boleta_boleta(request):
     carrito = Carrito(request)
     carrito.limpiar()
     return render(request,'Paginas/Boleta.html',datos)
-
-'''def verificarDatos(request):
-    if request.user.is_authenticated:
-        correo = request.user.email
-        try:
-            usuario = Usuario.objects.get(correo=correo)
-            if usuario.direccion not in [None, ""]:
-                return render(request, 'Paginas/DatosCompra.html')
-            else:
-                return render(request, 'Paginas/Boleta.html')
-        except Usuario.DoesNotExist:
-            messages.error(request, 'Usuario no encontrado')
-            return redirect('')
-    else:
-        messages.error(request, 'Por favor inicie sesión')
-        return redirect('Login')
-
-def DatosCompra (request):
-    if request.method == 'POST':
-        usuarioform= UsuarioForm(request.POST)
-        pagoform= PagoForm(request.POST, request.FILES)
-        if usuarioform.is_valid() and pagoform.is_valid():
-            usuarioform.save()
-            pagoform.save()
-            messages.success(request, 'Usuario creado exitosamente')
-            return redirect('DatosCompra')
-    else:
-        usuarioform = UsuarioForm()
-        pagoform = PagoForm()
-    
-    return render(request,'Paginas/DatosCompra.html', {'UsuarioForm':usuarioform, 'PagoForm':pagoform})'''
-
-def verificarDatos(request):
-    usuario = Usuario(request)
-    if usuario.direccion not in [None, ""]:
-        return render(request, 'Paginas/Boleta.html')
-    if request.method == 'POST':
-        usuarioform= UsuarioForm(request.POST, request.FILES)
-        pagoform= PagoForm(request.POST, request.FILES)
-        if usuarioform.is_valid() and pagoform.is_valid():
-            usuarioform.save()
-            pagoform.save()
-            messages.success(request, 'Usuario creado exitosamente')
-            if usuario.direccion not in [None, ""]:
-                return render(request, 'Paginas/Boleta.html')
-            else:
-                return render(request, 'Paginas/DatosCompra.html')
-    else:
-        usuarioform = UsuarioForm()
-        pagoform = PagoForm()
-
-    context = {
-        'UsuarioForm':usuarioform,
-        'PagoForm':pagoform
-    }
-    
-    return render(request, 'Paginas/DatosCompra.html', context)
