@@ -21,21 +21,16 @@ class RegistroUserForm(UserCreationForm):
         return email
 
 class PagoForm(forms.ModelForm):
-    id = forms.ChoiceField(
-        choices=MetodoPago.choices,
-        widget=forms.Select(attrs={
-            'placeholder': 'Seleccione un tipo de pago..',
-            'class': 'form-control'
-        }),
-        label='Tipo de pago',
-        required=True
-    )
-
     class Meta:
         model = Pago
-        fields = ['nombre']
+        fields = ['id']
         labels = {
-            'nombre': 'Nombre',
+            'id': 'Metodo de Pago',
+        }
+        widgets = {
+            'id': forms.Select(attrs={
+                'id': 'id',
+                'class': 'form-control'}),
         }
         
 
