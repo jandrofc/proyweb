@@ -36,39 +36,21 @@
             {% csrf_token %}
             <div class="row">
                 <label for="{{ form.field.name }}">
-                    {{ form.username.label }}
+                    {{ form.first_name.label }}
                 </label>
-                {{ form.username }}
+                {{ form.first_name }}
             </div>
             <div class="row">
                 <label for="{{ form.field.name }}">
-                    {{ form.nombre.label }}
+                    {{ form.last_name.label }}
                 </label>
-                {{ form.nombre }}
+                {{ form.last_name }}
             </div>
             <div class="row">
                 <label for="{{ form.field.name }}">
-                    {{ form.apellido.label }}
+                    {{ form.email.label }}
                 </label>
-                {{ form.apellido }}
-            </div>
-            <div class="row">
-                <label for="{{ form.field.name }}">
-                    {{ form.correo.label }}
-                </label>
-                {{ form.correo }}
-            </div>
-            <div class="row">
-                <label for="{{ form.field.name }}">
-                    {{ form.telefono.label }}
-                </label>
-                {{ form.telefono }}
-            </div>
-            <div class="row">
-                <label for="{{ form.field.name }}">
-                    {{ form.direccion.label }}
-                </label>
-                {{ form.direccion }}
+                {{ form.email }}
             </div>
             
             <br><br>

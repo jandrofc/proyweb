@@ -70,7 +70,11 @@
                 </label>
                 {{ form.password2 }}
             </div>
-            
+            {%for message in messages%}
+                <div class="mensaje">
+                    {{message}}
+                </div>
+            {% endfor %}
             <br><br>
             <input type="submit" class="btn btn-primary" value="Guardar">
         </form>

@@ -1,6 +1,6 @@
 from django.contrib.auth.models import Group
 from django import forms
-from .models import Usuario,MetodoPago,Pago,Categoria,Producto,Estados,Boleta
+from .models import Categoria,Producto
 
 
 
@@ -14,12 +14,6 @@ class RegistroUserForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
-
-    def clean_email(self):
-        email = self.cleaned_data['email']
-        if User.objects.filter(email=email).exists():
-            raise forms.ValidationError('El correo ya está registrado')
-        return email
     
     def save(self, commit=True):
         user = super().save(commit=True)
@@ -32,67 +26,27 @@ class RegistroUserForm(UserCreationForm):
         return user
     
 class EditarPerfilForm(UserCreationForm):
-    email = forms.EmailField(required=True)  # Asegura que el campo email sea requerido
 
     class Meta(UserCreationForm.Meta):
         model = User
         fields = ['first_name', 'last_name', 'email', 'password1', 'password2']
-    
+
+    def init(self, args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        self.email = kwargs.pop('email', None)
+        super(EditarPerfilForm, self).init(args, **kwargs)
+
+
     def clean_email(self):
         email = self.cleaned_data['email']
-        if User.objects.filter(email=email).exists():
-            raise forms.ValidationError('El correo ya está registrado')
+        # Filtra excluyendo el correo electrónico del usuario actual si está editando su perfil
+        if self.user:
+            if User.objects.filter(email=email).exclude(pk=self.user.pk).exists():
+                raise forms.ValidationError('El correo ya está registrado MODIFY')
+        else:
+            if User.objects.filter(email=email).exists():
+                raise forms.ValidationError('El correo ya está registrado REGISTER')
         return email
-        
-
-class UsuarioForm(forms.ModelForm):
-    class Meta:
-        model = Usuario
-        fields = ['rut', 'username', 'nombre', 'apellido', 'correo', 'telefono', 'direccion', 'TipoPago']
-        labels = {
-            'rut': 'Rut',
-            'username': 'Nombre de usuario',
-            'nombre': 'Nombre',
-            'apellido': 'Apellido',
-            'correo': 'Correo',
-            'telefono': 'Teléfono',
-            'direccion': 'Dirección',
-            'TipoPago': 'Tipo de pago',
-        }
-        widgets = {
-            'rut': forms.TextInput(attrs={
-                'placeholder':'Ingrese un rut..',
-                'id': 'rut',
-                'class': 'form-control'}),
-            'username': forms.TextInput(attrs={
-                'placeholder':'Ingrese un nombre de usuario..',
-                'id': 'username',
-                'class': 'form-control'}),
-            'nombre': forms.TextInput(attrs={
-                'placeholder':'Ingrese un nombre..',
-                'id': 'nombre',
-                'class': 'form-control'}),
-            'apellido': forms.TextInput(attrs={
-                'placeholder':'Ingrese un apellido..',
-                'id': 'apellido',
-                'class': 'form-control'}),
-            'correo': forms.EmailInput(attrs={
-                'placeholder':'Ingrese un correo..',
-                'id': 'correo',
-                'class': 'form-control'}),
-            'telefono': forms.TextInput(attrs={
-                'placeholder':'Ingrese un teléfono..',
-                'id': 'telefono',
-                'class': 'form-control'}),
-            'direccion': forms.TextInput(attrs={
-                'placeholder':'Ingrese una dirección..',
-                'id': 'direccion',
-                'class': 'form-control'}),
-            'TipoPago': forms.Select(attrs={
-                'placeholder':'Ingrese un tipo de pago..',
-                'id': 'tipopago',
-                'class': 'form-control'}),
-        }
 
 class CategoriaForm(forms.ModelForm):
     class Meta:

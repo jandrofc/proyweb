@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from .carrito import Carrito
 from tienda.models import Categoria, Pago, Producto,Boleta, Usuario,detalle_boleta,Estados
 #se importan los tipos de formularios que se van a utilizar de forms.py
-from .forms import EditarPerfilForm, RegistroUserForm, CategoriaForm , ProductoForm, UsuarioForm
+from .forms import EditarPerfilForm, RegistroUserForm, CategoriaForm , ProductoForm
 
 #aletar con mensaje de error o exito en formularios
 from django.contrib import messages
@@ -38,22 +38,24 @@ def Galeria (request):
 #Paginas de cuenta
 
 def Login (request):
-    if request.method == 'POST':
-        correo = request.POST.get('correo')
-        password = request.POST.get('password')
+    if request.user.is_authenticated:
+        return redirect('index')
+    else:
+        if request.method == 'POST':
+            correo = request.POST.get('correo')
+            password = request.POST.get('password')
 
-        usuario = authenticate(request, username=correo, password=password)
+            usuario = authenticate(request, username=correo, password=password)
 
-        if usuario is not None:
-            login(request, usuario)
-            return redirect('index')
-        else:
-            
-            messages.info(request, 'Correo o contraseña incorrecta')
-            
-    
-    context = {}
-    return render(request,'registration/Login.html')
+            if usuario is not None:
+                login(request, usuario)
+                return redirect('index')
+            else:
+
+                messages.info(request, 'Correo o contraseña incorrecta')
+
+        context = {}
+        return render(request,'registration/Login.html')
 
 def Registro (request):
     form = RegistroUserForm()
@@ -78,18 +80,24 @@ def EditarPerfil(request):
     if usuario_actual.is_authenticated and usuario_actual.email == id:
         ModificarUsuario = User.objects.get(email=id)  # Buscamos el objeto
         datos = {
-            'form': RegistroUserForm(instance=ModificarUsuario)
+            'form': EditarPerfilForm(instance=ModificarUsuario)
         }
         if request.method == "POST":
-            formulario = RegistroUserForm(data=request.POST, instance=ModificarUsuario)
+            formulario = EditarPerfilForm(data=request.POST, instance=ModificarUsuario, user=usuario_actual)
             if formulario.is_valid():
+
                 formulario.save()
-                return redirect('')
+                return redirect('index')
+            else:
+                messages.error(request, formulario.errors)
+
+
+                print(formulario.errors)  # Esto imprimirá los errores del formulario en la consola
         return render(request, 'Paginas/Administracion/EditarPerfil.html', datos)
     else:
         # Redirigir o mostrar un mensaje de error si el usuario no está autenticado
         # o si el usuario autenticado no coincide con el perfil que se intenta editar
-        return redirect('')
+        return redirect('index')
 
 #Administracion
 def check_admin(user):
@@ -97,7 +105,7 @@ def check_admin(user):
 
 @user_passes_test(check_admin)
 def ListaUsuarios (request):
-    usuarios = Usuario.objects.all()
+    usuarios = User.objects.all()
     datos = {
         'Usuarios':usuarios
     }
@@ -105,31 +113,31 @@ def ListaUsuarios (request):
 
 @user_passes_test(check_admin)
 def eliminarUsuario(request, id):
-    usuarioEliminado = Usuario.objects.get(id_usuario=id) #similar a select * from... where...
+    usuarioEliminado = User.objects.get(id=id) #similar a select * from... where...
     usuarioEliminado.delete()
     return redirect ('ListaUsuarios')
 
 @user_passes_test(check_admin)
 def AñadirUsuario (request):
     if request.method == 'POST':
-        usuarioform= UsuarioForm(request.POST, request.FILES)
+        usuarioform= EditarPerfilForm(request.POST, request.FILES)
         if usuarioform.is_valid():
             usuarioform.save()
             messages.success(request, 'Usuario creado exitosamente')
             return redirect('AñadirUsuario')
     else:
-        usuarioform = UsuarioForm()
+        usuarioform = EditarPerfilForm()
 
     return render(request,'Paginas/Administracion/AñadirUsuario.html',{'UsuarioForm':usuarioform})
 
 @user_passes_test(check_admin)
 def EditarUsuario (request,id):
-    ModificarUsuario=Usuario.objects.get(id_usuario=id) #buscamos el objeto
+    ModificarUsuario=User.objects.get(id=id) #buscamos el objeto
     datos ={
-        'form':UsuarioForm(instance=ModificarUsuario)
+        'form':EditarPerfilForm(instance=ModificarUsuario)
     }
     if request.method=="POST":
-        formulario = UsuarioForm(data=request.POST, instance=ModificarUsuario)
+        formulario = EditarPerfilForm(data=request.POST, instance=ModificarUsuario)
         if formulario.is_valid():
             formulario.save()
             return redirect ('ListaUsuarios')

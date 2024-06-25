@@ -16,33 +16,23 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>RUT</th>
-                    <th>Nombre de Usuario</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Correo</th>
-                    <th>Telefono</th>
-                    <th>Direccion</th>
                     <th>Eliminar</th>
                     <th>Modificar</th>
                 </tr>
             </thead>
             <tbody>
-                {% for usuario in Usuarios%}
+                {% for user in Usuarios%}
                 <tr>
-                    <td>{{usuario.id_usuario}}</td>
-                    <td>{{usuario.rut}}</td>
-                    <td>{{usuario.username}}</td>
-                    <td>{{usuario.nombre}}</td>
-                    <td>{{usuario.apellido}}</td>
-                    <td>{{usuario.correo}}</td>
-                    <td>{{usuario.telefono}}</td>
-                    <td>{{usuario.direccion}}</td>
+                    <td>{{user.first_name}}</td>
+                    <td>{{user.last_name}}</td>
+                    <td>{{user.email}}</td>
                     
                     {% if user.is_authenticated %}
                         <td>
-                            <a href="{% url 'eliminarUsuario' usuario.id_usuario %}" class="btn btn-danger">Eliminar</a>
+                            <a href="{% url 'eliminarUsuario' user.id %}" class="btn btn-danger">Eliminar</a>
                         </td>
                     {% else %}
                         <td>
@@ -50,13 +40,12 @@
                         </td>
                     {% endif %}
                     <td>
-                        <a href="{% url 'EditarUsuario' usuario.id_usuario %}" class="btn btn-warning">Modificar</a>
+                        <a href="{% url 'EditarUsuario' user.id %}" class="btn btn-warning">Modificar</a>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        <a href="{% url 'AñadirUsuario' %}" class="btn btn-success">Crear Usuario</a>
     </div>
 </body>
 </html>
