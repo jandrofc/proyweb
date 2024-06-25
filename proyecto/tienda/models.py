@@ -3,38 +3,6 @@ import datetime
 # Create your models here.
 
 
-class MetodoPago(models.TextChoices):
-    TRANSFERENCIA = 'T', 'Transferencia'
-    TARJETA       = 'C', 'Tarjeta'
-    EFECTIVO      = 'E', 'Efectivo'
-
-#crear esos 3 valores inmediatamente
-
-class Pago(models.Model):
-    id = models.CharField(max_length=1,choices=MetodoPago.choices,primary_key=True,)
-    nombre = models.CharField(max_length=20)
-    def __str__(self):
-        return self.nombre
-
-class Usuario(models.Model):
-    id_usuario = models.AutoField(primary_key=True)
-    rut        = models.CharField(max_length=8,null=True,blank=True)
-    username   = models.CharField(max_length=20,default='usuario')
-    nombre     = models.CharField(max_length=20)
-    apellido   = models.CharField(max_length=20)
-    correo     =  models.EmailField(max_length=20)
-    telefono   = models.CharField(max_length=11, null=True,blank=True)
-    direccion  = models.CharField(max_length=60,null=True,blank=True)
-    TipoPago  = models.ForeignKey(Pago, on_delete=models.CASCADE ,null=True,blank=True)
-
-
-    def __str__(self):
-        return self.username
-
-
-
-
-
 class Categoria(models.Model):
     id_categoria = models.AutoField(primary_key=True,verbose_name="ID")
     nombre       = models.CharField(max_length=20, verbose_name="Nombre")

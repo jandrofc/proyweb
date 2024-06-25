@@ -1,5 +1,6 @@
+from django.contrib.auth.models import Group
 from django import forms
-from .models import Usuario,MetodoPago,Pago,Categoria,Producto,Boleta
+from .models import Categoria,Producto
 
 
 
@@ -13,13 +14,39 @@ class RegistroUserForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
+    
+    def save(self, commit=True):
+        user = super().save(commit=True)
+        user.email = self.cleaned_data['email']
+        if commit:
+            user.save()
+            if user.email == "pinponcitos52@gmail.com":
+                admin_group, created = Group.objects.get_or_create(name='Admin')
+                user.groups.add(admin_group)
+        return user
+    
+class EditarPerfilForm(UserCreationForm):
+
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = ['first_name', 'last_name', 'email', 'password1', 'password2']
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        self.email = kwargs.pop('email', None)
+        super(EditarPerfilForm, self).__init__(*args, **kwargs)
+
 
     def clean_email(self):
         email = self.cleaned_data['email']
-        if User.objects.filter(email=email).exists():
-            raise forms.ValidationError('El correo ya está registrado')
+        # Filtra excluyendo el correo electrónico del usuario actual si está editando su perfil
+        if self.user:
+            if User.objects.filter(email=email).exclude(pk=self.user.pk).exists():
+                raise forms.ValidationError('El correo ya está registrado')
+        else:
+            if User.objects.filter(email=email).exists():
+                raise forms.ValidationError('El correo ya está registrado')
         return email
-    
 
 class CategoriaForm(forms.ModelForm):
     class Meta:
