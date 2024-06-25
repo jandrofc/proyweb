@@ -27,7 +27,7 @@ def Nosotros (request):
     return render(request,'Paginas/Quienes_somos.html')
 #Galeria de productos
 def Galeria (request):
-    productos= Producto.objects.all()
+    productos = Producto.objects.filter(stock__gt=0)
     return render(request,'Paginas/Galeria.html',{'productos':productos})
 
 
@@ -144,6 +144,8 @@ def EditarProductos (request,id):
 
 
 
+
+
 #todo lo que esta relacionado con el carrito
 def Tienda_carrito (request):
     producto = Producto.objects.all()
@@ -152,8 +154,11 @@ def Tienda_carrito (request):
 def agregar_producto(request, id_producto):
     carrito = Carrito(request)
     producto = Producto.objects.get(id_producto =id_producto)
-    carrito.agregar(producto)
-    return redirect("Galeria")
+    if producto.stock == 0:
+        return redirect("Galeria")
+    else:
+        carrito.agregar(producto)
+        return redirect("Galeria")
 
 def eliminar_producto(request,id_producto):
     carrito = Carrito(request)
@@ -189,9 +194,17 @@ def limpiar_carrito(request):
 
 def Pagina_Boleta (request):
     
+
     if request.session['carrito'] == {}:
         return redirect('Galeria')
     
+
+    carrito = Carrito(request)
+    for key, value in request.session['carrito'].items():
+        producto = Producto.objects.get(id_producto = value['producto_id'])
+        producto.stock = producto.stock - value['cantidad']
+        producto.save()
+
     precio_total=0
     IVA=0.19
     for key, value in request.session['carrito'].items():

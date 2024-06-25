@@ -24,9 +24,10 @@ class Carrito:
                 "cantidad" : 1,
                 "subtotal": Producto.precio
             }
-        else: 
-            self.carrito[id]["cantidad"] +=1
-            self.carrito[id]["subtotal"] += Producto.precio
+        else:
+            if self.carrito[id]["cantidad"] < Producto.stock:
+                self.carrito[id]["cantidad"] +=1
+                self.carrito[id]["subtotal"] += Producto.precio
         self.guardar_carrito()
     
     def guardar_carrito(self):
