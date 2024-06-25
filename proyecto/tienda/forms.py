@@ -31,10 +31,10 @@ class EditarPerfilForm(UserCreationForm):
         model = User
         fields = ['first_name', 'last_name', 'email', 'password1', 'password2']
 
-    def init(self, args, **kwargs):
+    def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         self.email = kwargs.pop('email', None)
-        super(EditarPerfilForm, self).init(args, **kwargs)
+        super(EditarPerfilForm, self).__init__(*args, **kwargs)
 
 
     def clean_email(self):
@@ -42,10 +42,10 @@ class EditarPerfilForm(UserCreationForm):
         # Filtra excluyendo el correo electrónico del usuario actual si está editando su perfil
         if self.user:
             if User.objects.filter(email=email).exclude(pk=self.user.pk).exists():
-                raise forms.ValidationError('El correo ya está registrado MODIFY')
+                raise forms.ValidationError('El correo ya está registrado')
         else:
             if User.objects.filter(email=email).exists():
-                raise forms.ValidationError('El correo ya está registrado REGISTER')
+                raise forms.ValidationError('El correo ya está registrado')
         return email
 
 class CategoriaForm(forms.ModelForm):
