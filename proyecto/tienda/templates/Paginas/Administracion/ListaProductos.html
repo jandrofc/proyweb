@@ -1,0 +1,67 @@
+{% extends "Cuenta/cuenta.html" %} 
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <title>Pinponcitos - Productos</title>
+</head>
+<body>
+    <div class="container"> 
+        <h1>Productos</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Descripcion</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                    <th>Imagen</th>
+                    <th>Categoria</th>
+                    <th>Eliminar</th>
+                    <th>Modificar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in Productos%}
+                <tr>
+                    <td>{{producto.id_producto}}</td>
+                    <td>{{producto.nombre}}</td>
+                    <td>{{producto.descripcion}}</td>
+                    <td>{{producto.precio}}</td>
+                    <td>{{producto.stock}}</td>
+                    
+                    {% if producto.imagen %}
+                        <td><img src="{{producto.imagen.url}}" width="50px" height="50px"></td>
+                    {% else %}
+                        <td>No hay imagen</td>
+                    {% endif %}
+                    <td>{{producto.categoria}}</td>
+                    {% if user.is_authenticated %}
+                        <td>
+                            <a href="{% url 'eliminarProducto' producto.id_producto %}" class="btn btn-danger">Eliminar</a>
+                        </td>
+                    {% else %}
+                        <td>
+                            <a href="#" class="btn btn-danger">No tiene permiso</a>
+                        </td>
+                    {% endif %}
+                    <td>
+                        <a href="{% url 'EditarProducto' producto.id_producto %}" class="btn btn-warning">Modificar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'AñadirProducto' %}" class="btn btn-success">Crear Producto</a>
+        <a href="{% url 'AñadirCategoria' %}" class="btn btn-success">Crear Categoria</a>
+    </div>
+   
+</body>
+</html>
+{% endblock %}
