@@ -65,6 +65,7 @@
     <header class="cabezera">
         <a href="{% url 'index' %}" class="pinpon"><img src="{% static 'Imagenes/icono.jpeg' %}" alt="icono pagina" class="icono">
         <img src="{%static 'Imagenes/aas.png' %}" id="icono1"  alt="icono"></a>
+        <link rel="stylesheet" href="{%static 'CSS/Style Cuenta.css' %}"></link>
         <Div class="user">
             {% if user.is_authenticated %}
                 <div style="display: flex;">
@@ -72,12 +73,12 @@
                     <button class="perfil" type="submit" onclick="AbrirCuenta(event);"></button>
                 </div>
                 <div id="pop-up">
-                    <a href=#>Mi Cuenta</a>
-                    <a href="{% url 'logout' %}"><span>Cerrar Sesión</span></a>
+                    <a href="{% url 'EditarPerfil' %}" class="boton">Mi Cuenta</a>
+                    <a href="{% url 'logout' %}" class="boton"><span>Cerrar Sesión</span></a>
             {% else %}
                 <div>
-                    <a href="{% url 'Login' %}"><span>Iniciar Sesión</span></a>
-                    <a href="{% url 'Registro' %}"><span>Registrarse</span></a>
+                    <a href="{% url 'Login' %}" class="boton"><span>Iniciar Sesión</span></a>
+                    <a href="{% url 'Registro' %}" class="boton"><span>Registrarse</span></a>
                 </div>
             {% endif %}
         </Div>

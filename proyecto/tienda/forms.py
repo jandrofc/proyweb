@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Group
 from django import forms
 from .models import Usuario,MetodoPago,Pago,Categoria,Producto,Estados,Boleta
 
@@ -19,19 +20,29 @@ class RegistroUserForm(UserCreationForm):
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError('El correo ya está registrado')
         return email
+    
+    def save(self, commit=True):
+        user = super().save(commit=True)
+        user.email = self.cleaned_data['email']
+        if commit:
+            user.save()
+            if user.email == "pinponcitos52@gmail.com":
+                admin_group, created = Group.objects.get_or_create(name='Admin')
+                user.groups.add(admin_group)
+        return user
+    
+class EditarPerfilForm(UserCreationForm):
+    email = forms.EmailField(required=True)  # Asegura que el campo email sea requerido
 
-class PagoForm(forms.ModelForm):
-    class Meta:
-        model = Pago
-        fields = ['id']
-        labels = {
-            'id': 'Metodo de Pago',
-        }
-        widgets = {
-            'id': forms.Select(attrs={
-                'id': 'id',
-                'class': 'form-control'}),
-        }
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = ['first_name', 'last_name', 'email', 'password1', 'password2']
+    
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError('El correo ya está registrado')
+        return email
         
 
 class UsuarioForm(forms.ModelForm):

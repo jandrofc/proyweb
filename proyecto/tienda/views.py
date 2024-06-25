@@ -1,10 +1,14 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import UpdateView
+from django.urls import reverse_lazy
 from .carrito import Carrito
 from tienda.models import Categoria, Pago, Producto,Boleta, Usuario,detalle_boleta,Estados
 #se importan los tipos de formularios que se van a utilizar de forms.py
-from .forms import RegistroUserForm, CategoriaForm , ProductoForm, UsuarioForm
+from .forms import EditarPerfilForm, RegistroUserForm, CategoriaForm , ProductoForm, UsuarioForm
 
 #aletar con mensaje de error o exito en formularios
 from django.contrib import messages
@@ -67,6 +71,25 @@ def Registro (request):
 def Logout (request):
     logout(request) #cierra la sesion funcion de django
     return redirect('index')
+
+def EditarPerfil(request):
+    usuario_actual = request.user
+    id = request.user.email
+    if usuario_actual.is_authenticated and usuario_actual.email == id:
+        ModificarUsuario = User.objects.get(email=id)  # Buscamos el objeto
+        datos = {
+            'form': RegistroUserForm(instance=ModificarUsuario)
+        }
+        if request.method == "POST":
+            formulario = RegistroUserForm(data=request.POST, instance=ModificarUsuario)
+            if formulario.is_valid():
+                formulario.save()
+                return redirect('')
+        return render(request, 'Paginas/Administracion/EditarPerfil.html', datos)
+    else:
+        # Redirigir o mostrar un mensaje de error si el usuario no está autenticado
+        # o si el usuario autenticado no coincide con el perfil que se intenta editar
+        return redirect('')
 
 #Administracion
 def check_admin(user):
