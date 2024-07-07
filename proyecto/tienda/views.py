@@ -9,9 +9,10 @@ from .carrito import Carrito
 from tienda.models import Categoria, Producto,Boleta, DetalleBoleta
 #se importan los tipos de formularios que se van a utilizar de forms.py
 from .forms import EditarPerfilForm, RegistroUserForm, CategoriaForm , ProductoForm
-
+from django.db.models import Q
 #aletar con mensaje de error o exito en formularios
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 
 
@@ -31,8 +32,18 @@ def Nosotros (request):
     return render(request,'Paginas/Quienes_somos.html')
 #Galeria de productos
 def Galeria (request):
+    queryset = request.GET.get("buscar")
     productos = Producto.objects.filter(stock__gt=0)
-    return render(request,'Paginas/Galeria.html',{'productos':productos})
+    if queryset:
+        productos = Producto.objects.filter(
+            Q(categoria__nombre__iexact=queryset) 
+        )
+    paginator = Paginator(productos, 12)
+    pagina = request.GET.get('page') or 1
+    productos = paginator.get_page(pagina)
+    pagina_actual = int(pagina)
+    paginas = range(1, productos.paginator.num_pages + 1)
+    return render(request,'Paginas/Galeria.html',{'productos':productos  ,'paginas':paginas, 'pagina_actual':pagina_actual})
 
 
 #Paginas de cuenta

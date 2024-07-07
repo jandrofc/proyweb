@@ -26,7 +26,6 @@ urlpatterns = [
 
 
 
-
     path('EditarProducto/<id>',EditarProductos ,name='EditarProducto'),
     path('AñadirProducto',AñadirProducto ,name='AñadirProducto'),
     path('ListaProductos',ListaProductos ,name='ListaProductos'),
