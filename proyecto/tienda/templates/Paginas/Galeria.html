@@ -45,6 +45,17 @@
         <br>
         <h1 style="text-align: center;">¡Nuestros productos!</h1>
     </div>
+    <div>
+        <form method="get">
+            <div class="input-group col-md-12">
+                <input type="text" class="from-control" placeholder="Buscar por categorias" name="buscar" value="{{request.GET.buscar}}">
+                <span class="input-gropu-list">
+                    <i class="icon icon-search"></i>
+                    <button type="submit" class="boton btn-success">BUSCAR</button>
+                </span>
+            </div>
+        </form>
+    </div>
     
     <div class="container mt-5">
         <div class="row">
@@ -68,6 +79,10 @@
             {% empty %}
                 <p>No hay productos disponibles.</p>
             {% endfor %}
+            
+            {% include "paginas/paginacion.html" %}
+
+            
         </div>
     </div>
     
