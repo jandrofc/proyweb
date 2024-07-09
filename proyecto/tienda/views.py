@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -239,9 +239,22 @@ def EditarProductos (request,id):
             return redirect ('ListaProductos')
     return render(request, 'Paginas/Administracion/EditarProductos.html', datos)
 
+@user_passes_test(check_admin)
+def ListaBoletas (request, id):
+    usuario = get_object_or_404(User, id=id)
+    boletas = Boleta.objects.filter(user=usuario)
+    datos = {
+        'Boletas': boletas
+    }
+    return render(request,'Paginas/Administracion/ListaBoletas.html', datos)
 
-
-
+def VerCompras(request):
+    usuario = request.user
+    boletas = Boleta.objects.filter(user=usuario)
+    datos = {
+        'Boletas': boletas
+    }
+    return render(request, 'Paginas/Administracion/VerCompras.html', datos)
 
 #todo lo que esta relacionado con el carrito
 @login_required(login_url='Login')
@@ -318,6 +331,8 @@ def Pagina_Boleta (request):
 
     EstadoPago = 'E'
     EstadoDespacho = 'N'
+
+    usuario = request.user
     
     boleta = Boleta(iva=total_iva, total_neto=total_neto, total_a_pagar=precio_total, estado_pago=EstadoPago, estado_despacho=EstadoDespacho)
     boleta.save()
@@ -327,7 +342,7 @@ def Pagina_Boleta (request):
             producto = Producto.objects.get(id_producto = value['producto_id'])
             cant = value['cantidad']
             subtotal = cant * int(value['precio'])
-            detalle = DetalleBoleta(id_boleta = boleta, id_producto = producto, cantidad = cant, subtotal = subtotal)
+            detalle = DetalleBoleta(user=usuario, id_boleta = boleta, id_producto = producto, cantidad = cant, subtotal = subtotal)
             detalle.save()
             productos.append(detalle)
     datos={
