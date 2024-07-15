@@ -23,6 +23,7 @@ const countdown = (deadline) => {//Función que recibe la fecha límite, el elem
     let timerUpdate;//Variable para almacenar el intervalo
     const updateCountdown = () => {//Función que actualiza el contador
         let t = getRemainTime(deadline);//Se obtiene el tiempo restante
+        console.log(t);
         elDays.innerHTML = ` ${t.remainDays}`;//Se muestra el tiempo restante en el elemento
         elHours.innerHTML = ` ${t.remainHours}`;
         elMinutes.innerHTML = ` ${t.remainMinutes}`;
@@ -38,4 +39,4 @@ const countdown = (deadline) => {//Función que recibe la fecha límite, el elem
     timerUpdate = setInterval(updateCountdown, 1000);
 }
 
-countdown('2024-06-28T23:59:59','America/Santiago');//Se llama a la función countdown con la fecha límite, el elemento donde se mostrará el contador y el mensaje final
+countdown('2024-07-28T23:59:59','America/Santiago');//Se llama a la función countdown con la fecha límite, el elemento donde se mostrará el contador y el mensaje final
