@@ -9,6 +9,8 @@ routers = routers.DefaultRouter()
 
 routers.register('api/productos', ProductoViewSet, 'productos')
 
+from django.contrib.auth import views as auth_views
+
 
 
 
@@ -49,6 +51,20 @@ urlpatterns = [
     path('limpiar/', limpiar_carrito, name='limpiar'),
 
     path('Boleta/', Pagina_Boleta,name="GenerarBoleta"),
+
+
+    # reseteo de contraseña
+    #1. Se envia un correo con un link para resetear la contraseña
+    path('reset_password/', auth_views.PasswordResetView.as_view(template_name = 'recuperarContraseñas/password_reset.html') ,name='password_reset'),
+    #2. Se muestra la pagina para resetear la contraseña
+    path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(template_name = 'recuperarContraseñas/intruccionesPassword.html') ,name = 'password_reset_done'),
+    #3. Se resetea la contraseña
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='recuperarContraseñas/password_form.html') ,name='password_reset_confirm'),
+    #4. Se muestra la pagina de confirmación
+    path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(template_name = 'recuperarContraseñas/password_cambiada.html'), name='password_reset_complete'),
+
+
+
 
 ]
 urlpatterns += routers.urls  
