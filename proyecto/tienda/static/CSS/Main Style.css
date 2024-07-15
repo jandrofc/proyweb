@@ -89,7 +89,9 @@ body{
     flex-wrap: wrap;
     width: 100%;
     position: absolute;
-    
+    bottom: 0;
+    text-align: center;
+    margin-top: auto;
 }
 #margen{
     padding-top: 15px;

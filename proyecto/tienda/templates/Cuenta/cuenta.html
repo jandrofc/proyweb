@@ -28,6 +28,15 @@
         border : 3px solid black;
         border-radius: 50%;
         margin-left: 0.5cm;
+        overflow: hidden;
+        padding: 0;
+        background: none;
+        }
+        .perfil img{
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 50%;
         }
         #pop-up{
         /*display: none; Ocultamos el formulario, con js cmabiarlo a block*/
@@ -53,9 +62,48 @@
 
         justify-content: center;
         align-items: center;
+        flex-direction: column;
         }
         span{
         color: black;
+        }
+        #pop-up .boton{
+        background-color: rgb(75, 113, 189);
+        border: 1px solid rgb(255, 255, 255);
+        border-radius: 5px;
+        padding: 5px;
+        margin: 10px;
+        width: 50%;
+        display: flex;
+        justify-content: center;
+        text-decoration: none;
+        color: rgb(0, 0, 0);
+        }
+
+        #reg .boton{
+        background-color: rgb(75, 113, 189);
+        border: 1px solid rgb(255, 255, 255);
+        border-radius: 5px;
+        padding: 5px;
+        text-decoration: none;
+        color: rgb(0, 0, 0);
+        }
+        body{
+        position: relative;
+        padding-bottom: 7em;
+        min-height: 100vh;
+        }
+        .contenedor-footer{
+        background-color: rgb(126, 178, 228);
+        display: flex;
+        justify-content: space-around;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        text-align: center;
+        margin-top: auto;
         }
         </style>
 
@@ -68,16 +116,18 @@
         <link rel="stylesheet" href="{%static 'CSS/Style Cuenta.css' %}"></link>
         <Div class="user">
             {% if user.is_authenticated %}
-                <div style="display: flex;">
+                <div style="display: flex; align-items: center;">
                     <h5>Bienvenid@ <span style="font-weight: bold;">{{ user.username }}</span></h5>
-                    <button class="perfil" type="submit" onclick="AbrirCuenta(event);"></button>
+                    <button class="perfil" type="submit" onclick="AbrirCuenta(event);">
+                        <img src="{% static 'Imagenes/Perfil.png' %}" alt="perfil">
+                    </button>
                 </div>
                 <div id="pop-up">
                     <a href="{% url 'EditarPerfil' %}" class="boton">Mi Cuenta</a>
                     <a href="{% url 'VerCompras' %}" class="boton">Mis Compras</a>
                     <a href="{% url 'logout' %}" class="boton"><span>Cerrar Sesión</span></a>
             {% else %}
-                <div>
+                <div id="reg">
                     <a href="{% url 'Login' %}" class="boton"><span>Iniciar Sesión</span></a>
                     <a href="{% url 'Registro' %}" class="boton"><span>Registrarse</span></a>
                 </div>
@@ -97,12 +147,12 @@
                     <div class = "collapse navbar-collapse " id="navbar-star">
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'ListaUsuarios' %}" ><i class="bi bi-house-door-fill"></i> Administrar Usuarios</a>
+                                <a class="nav-link" href="{% url 'ListaUsuarios' %}" ><i class="bi bi-person-fill-gear"></i> Administrar Usuarios</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'ListaProductos' %}"><i class="bi bi-people-fill"></i> Administrar Productos</a>
+                                <a class="nav-link" href="{% url 'ListaProductos' %}"><i class="bi bi-basket2"></i> Administrar Productos</a>
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'ListaCategoria' %}"><i class="bi bi-collection"></i> Administrar Categorias</a>
+                                <a class="nav-link" href="{% url 'ListaCategoria' %}"><i class="bi bi-collection-fill"></i> Administrar Categorias</a>
                             </li>
                         </ul>
                     </div>
@@ -142,7 +192,4 @@
         </div>
     </div>
 </footer>
-
-
-
 </html>

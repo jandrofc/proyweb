@@ -43,7 +43,7 @@ def Galeria (request):
     productos = paginator.get_page(pagina)
     pagina_actual = int(pagina)
     paginas = range(1, productos.paginator.num_pages + 1)
-    return render(request,'Paginas/Galeria.html',{'productos':productos  ,'paginas':paginas, 'pagina_actual':pagina_actual})
+    return render(request,'Paginas/Galeria.html',{'productos':productos  ,'paginas':paginas, 'pagina_actual':pagina_actual, 'buscar': queryset})
 
 
 #Paginas de cuenta
@@ -145,21 +145,6 @@ def AñadirUsuario (request):
     return render(request,'Paginas/Administracion/AñadirUsuario.html',{'UsuarioForm':usuarioform})
 
 @user_passes_test(check_admin)
-def EditarUsuario (request,id):
-    ModificarUsuario=User.objects.get(id=id) #buscamos el objeto
-    datos ={
-        'form':EditarPerfilForm(instance=ModificarUsuario)
-    }
-    if request.method=="POST":
-        formulario = EditarPerfilForm(data=request.POST, instance=ModificarUsuario)
-        if formulario.is_valid():
-            formulario.save()
-            return redirect ('ListaUsuarios')
-    return render(request, 'Paginas/Administracion/EditarUsuario.html', datos)
-
-
-
-@user_passes_test(check_admin)
 def ListaCategoria (request):
     categoria = Categoria.objects.all()
     datos = {
@@ -242,17 +227,17 @@ def EditarProductos (request,id):
 @user_passes_test(check_admin)
 def ListaBoletas (request, id):
     usuario = get_object_or_404(User, id=id)
-    boletas = Boleta.objects.filter(user=usuario)
+    detalles = DetalleBoleta.objects.filter(user=usuario)
     datos = {
-        'Boletas': boletas
+        'Detalles': detalles
     }
     return render(request,'Paginas/Administracion/ListaBoletas.html', datos)
 
 def VerCompras(request):
     usuario = request.user
-    boletas = Boleta.objects.filter(user=usuario)
+    detalles = DetalleBoleta.objects.filter(user=usuario)
     datos = {
-        'Boletas': boletas
+        'Detalles': detalles
     }
     return render(request, 'Paginas/Administracion/VerCompras.html', datos)
 

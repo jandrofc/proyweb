@@ -15,46 +15,55 @@
     <title>Pinponcitos - Ver compras</title>
 </head>
 <body>
-    <div class="container mt-5">
-        <h2>Mis compras</h2>
-        <div class="list-group">
-            {% for boleta in boletas %}
-            <div class="row">
-                <div class="col mb-3">
-                  <p class="small text-muted mb-1">Fecha Emitida</p>
-                  <p>{{ fecha }}</p>
-                </div>
-                <div class="col mb-3">
-                  <p class="small text-muted mb-1">Numero Boleta</p>
-                  <p>N {{ id_boleta }}</p>
-                </div>
-              </div>
-  
-              <div class="mx-n5 px-5 py-4" style="background-color: #f2f2f2;">
-                <div class="row">
-                    {% for prod in productos%}
-                    <div class="col-md-8 col-lg-9">
-                        <p>{{ prod.id_producto }} X{{ prod.cantidad }}  ${{ prod.subtotal }}</p>
-                    </div>
-                    {% endfor %}
-                </div>
-              </div>
-  
-              <div class="row my-4">
-                <div class="col-md-8">
-                  <p class="lead fw-bold mb-0" style="color: rgb(68, 111, 152); font-weight: 650;">NETO ${{ total_neto }}</p>
-                </div>
-
-                <div class="col-md-8">
-                  <p class="lead fw-bold mb-0" style="color: rgb(68, 111, 152); font-weight: 650;">IVA 19% $ {{ iva }}</p>
-                </div>
-                <div class="col-md-8">
-                  <p class="lead fw-bold mb-0" style="color: rgb(68, 111, 152); font-weight: 650;">TOTAL ${{total_a_pagar}}</p>
-                </div>
-              </div>
-            {% empty %}
-                <p>No has realizado ninguna compra.</p>
-            {% endfor %}
+  <nav class=" navbar navbar-expand-lg navbar-light  ">  
+    <div class="container-nav">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbar-star" aria-controls="navbar-star" aria-expanded="false"
+                aria-label="toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class = "collapse navbar-collapse " id="navbar-star">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'index' %}"> <i class="bi bi-house-door-fill"></i> Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'Nosotros' %}"><i class="bi bi-people-fill"></i> Nosotros</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'Galeria' %}"><i class="bi bi-collection"></i> Galería</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'Contactanos' %}"><i class="bi bi-telephone-inbound"></i> Contáctanos</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+  <div class="container mt-5">
+      <h2>Mis compras</h2>
+      <div class="list-group">
+          <table class="table" style="width: 40%;">
+              <thead>
+                  <tr>
+                      <th scope="col">N°Boleta</th>
+                      <th scope="col">Descripcion</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for detalle in Detalles %}
+                  <tr>
+                      <td>{{ detalle.id_boleta }}</td>
+                      <td>{{ detalle.id_producto }} X{{ detalle.cantidad }}  ${{ detalle.subtotal }}</td>
+                  </tr>
+                  {% empty %}
+                  <p>No se encontraron boletas para este usuario.</p>
+                  {% endfor %}
+              </tbody>
+          </table>
+      </div>
+  </div>
 </body>
 </html>
 {% endblock %}

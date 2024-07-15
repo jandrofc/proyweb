@@ -35,7 +35,7 @@
                         <a class="nav-link" href="{% url 'Contactanos' %}"><i class="bi bi-telephone-inbound"></i> Contáctanos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'Carrito' %}"><i class="bi bi-cart4"></i> carrito</a>
+                        <a class="nav-link" href="{% url 'Carrito' %}"><i class="bi bi-cart4"></i> Carrito</a>
                     </li>
                 </ul>
             </div>
@@ -46,12 +46,11 @@
         <h1 style="text-align: center;">¡Nuestros productos!</h1>
     </div>
     <div>
-        <form method="get">
+        <form method="get" id="buscador">
             <div class="input-group col-md-12">
                 <input type="text" class="from-control" placeholder="Buscar por categorias" name="buscar" value="{{request.GET.buscar}}">
-                <span class="input-gropu-list">
-                    <i class="icon icon-search"></i>
-                    <button type="submit" class="boton btn-success">BUSCAR</button>
+                <span class="input-group-list">
+                    <button type="submit" class="boton btn-success"><i class="bi bi-search"></i></button>
                 </span>
             </div>
         </form>

@@ -17,14 +17,26 @@
     <div class="container mt-5">
         <h2>Boletas</h2>
         <div class="list-group">
-            {% for boleta in boletas %}
-                <a href="{% url 'detalle_boleta' boleta.id %}" class="list-group-item list-group-item-action">
-                    Boleta #{{ boleta.id }} - Fecha: {{ boleta.fecha }}
-                </a>
-            {% empty %}
-                <p>No se encontraron boletas para este usuario.</p>
-            {% endfor %}
+            <table class="table" style="width: 40%;">
+                <thead>
+                    <tr>
+                        <th scope="col">N°Boleta</th>
+                        <th scope="col">Descripcion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for detalle in Detalles %}
+                    <tr>
+                        <td>{{ detalle.id_boleta }}</td>
+                        <td>{{ detalle.id_producto }} X{{ detalle.cantidad }}  ${{ detalle.subtotal }}</td>
+                    </tr>
+                    {% empty %}
+                    <p>No se encontraron boletas para este usuario.</p>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
+        <a href="{% url 'index' %}" class="btn btn-success">Inicio</a>
     </div>
 </body>
 </html>
