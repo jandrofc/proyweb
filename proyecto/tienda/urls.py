@@ -3,9 +3,17 @@ from django.contrib.auth.decorators import login_required
 
 from .views import index, EditarUsuario, ListaUsuarios, EditarPerfil, eliminarUsuario, Nosotros, Galeria, Contactanos, Login, Registro, Logout, EditarProductos, AñadirProducto, ListaProductos, eliminarProducto, EditarCategoria, AñadirCategoria, ListaCategoria, eliminarCategoria, Tienda_carrito, agregar_producto, eliminar_producto, restar_producto, sumar_producto, limpiar_carrito, Pagina_Boleta
 
+from rest_framework import routers
+from .api import ProductoViewSet
+routers = routers.DefaultRouter()
+
+routers.register('api/productos', ProductoViewSet, 'productos')
+
+
 
 
 urlpatterns = [
+
     path('', index ,name='index'),
     path('Nosotros', Nosotros ,name='Nosotros'),
     path('Galeria', Galeria ,name='Galeria'),
@@ -22,18 +30,10 @@ urlpatterns = [
     path('ListaUsuarios',ListaUsuarios ,name='ListaUsuarios'),
     path('eliminar_usuario/<id>',eliminarUsuario ,name='eliminarUsuario'),
 
-
-
-
-
-
     path('EditarProducto/<id>',EditarProductos ,name='EditarProducto'),
     path('AñadirProducto',AñadirProducto ,name='AñadirProducto'),
     path('ListaProductos',ListaProductos ,name='ListaProductos'),
     path('eliminar_producto/<id>',eliminarProducto ,name='eliminarProducto'),
-
-
-
 
     path('EditarCategoria/<id>',EditarCategoria ,name='EditarCategoria'),
     path('AñadirCategoria',AñadirCategoria ,name='AñadirCategoria'),
@@ -50,9 +50,5 @@ urlpatterns = [
 
     path('Boleta/', Pagina_Boleta,name="GenerarBoleta"),
 
-    
-
-
-
-
 ]
+urlpatterns += routers.urls  

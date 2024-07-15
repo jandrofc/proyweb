@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tienda',
+    'rest_framework',
 ]
 AUTHENTICATION_BACKENDS = [
     'tienda.BackEnd.EmailBackend',  
