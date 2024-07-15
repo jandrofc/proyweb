@@ -20,7 +20,7 @@
                     <th>Apellido</th>
                     <th>Correo</th>
                     <th>Eliminar</th>
-                    <th>Modificar</th>
+                    <th>Ver compras</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,7 +40,7 @@
                         </td>
                     {% endif %}
                     <td>
-                        <a href="{% url 'EditarUsuario' user.id %}" class="btn btn-warning">Modificar</a>
+                        <a href="{% url 'ListaBoletas' user.id %}" class="btn btn-info">Ver compras</a>
                     </td>
                 </tr>
                 {% endfor %}

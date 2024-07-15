@@ -1,0 +1,69 @@
+{% extends "Cuenta/cuenta.html" %} 
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
+    <link rel="stylesheet" href="{%static 'CSS/Style Boleta.css' %}">
+    <title>Pinponcitos - Ver compras</title>
+</head>
+<body>
+  <nav class=" navbar navbar-expand-lg navbar-light  ">  
+    <div class="container-nav">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbar-star" aria-controls="navbar-star" aria-expanded="false"
+                aria-label="toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class = "collapse navbar-collapse " id="navbar-star">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'index' %}"> <i class="bi bi-house-door-fill"></i> Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'Nosotros' %}"><i class="bi bi-people-fill"></i> Nosotros</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'Galeria' %}"><i class="bi bi-collection"></i> Galería</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'Contactanos' %}"><i class="bi bi-telephone-inbound"></i> Contáctanos</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+  <div class="container mt-5">
+      <h2>Mis compras</h2>
+      <div class="list-group">
+          <table class="table" style="width: 40%;">
+              <thead>
+                  <tr>
+                      <th scope="col">N°Boleta</th>
+                      <th scope="col">Descripcion</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for detalle in Detalles %}
+                  <tr>
+                      <td>{{ detalle.id_boleta }}</td>
+                      <td>{{ detalle.id_producto }} X{{ detalle.cantidad }}  ${{ detalle.subtotal }}</td>
+                  </tr>
+                  {% empty %}
+                  <p>No se encontraron boletas para este usuario.</p>
+                  {% endfor %}
+              </tbody>
+          </table>
+      </div>
+  </div>
+</body>
+</html>
+{% endblock %}

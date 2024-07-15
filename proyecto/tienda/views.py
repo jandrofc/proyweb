@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -12,8 +12,8 @@ from .forms import EditarPerfilForm, RegistroUserForm, CategoriaForm , ProductoF
 
 #aletar con mensaje de error o exito en formularios
 from django.contrib import messages
-
-
+from django.db.models import Q
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -31,9 +31,18 @@ def Nosotros (request):
     return render(request,'Paginas/Quienes_somos.html')
 #Galeria de productos
 def Galeria (request):
+    queryset = request.GET.get("buscar")
     productos = Producto.objects.filter(stock__gt=0)
-    return render(request,'Paginas/Galeria.html',{'productos':productos})
-
+    if queryset:
+        productos = Producto.objects.filter(
+            Q(categoria__nombre__iexact=queryset) 
+        )
+    paginator = Paginator(productos, 12)
+    pagina = request.GET.get('page') or 1
+    productos = paginator.get_page(pagina)
+    pagina_actual = int(pagina)
+    paginas = range(1, productos.paginator.num_pages + 1)
+    return render(request,'Paginas/Galeria.html',{'productos':productos  ,'paginas':paginas, 'pagina_actual':pagina_actual, 'buscar': queryset})
 
 #Paginas de cuenta
 
@@ -133,20 +142,6 @@ def AñadirUsuario (request):
 
     return render(request,'Paginas/Administracion/AñadirUsuario.html',{'UsuarioForm':usuarioform})
 
-@user_passes_test(check_admin)
-def EditarUsuario (request,id):
-    ModificarUsuario=User.objects.get(id=id) #buscamos el objeto
-    datos ={
-        'form':EditarPerfilForm(instance=ModificarUsuario)
-    }
-    if request.method=="POST":
-        formulario = EditarPerfilForm(data=request.POST, instance=ModificarUsuario)
-        if formulario.is_valid():
-            formulario.save()
-            return redirect ('ListaUsuarios')
-    return render(request, 'Paginas/Administracion/EditarUsuario.html', datos)
-
-
 
 @user_passes_test(check_admin)
 def ListaCategoria (request):
@@ -228,6 +223,22 @@ def EditarProductos (request,id):
             return redirect ('ListaProductos')
     return render(request, 'Paginas/Administracion/EditarProductos.html', datos)
 
+@user_passes_test(check_admin)
+def ListaBoletas (request, id):
+    usuario = get_object_or_404(User, id=id)
+    detalles = DetalleBoleta.objects.filter(user=usuario)
+    datos = {
+        'Detalles': detalles
+    }
+    return render(request,'Paginas/Administracion/ListaBoletas.html', datos)
+
+def VerCompras(request):
+    usuario = request.user
+    detalles = DetalleBoleta.objects.filter(user=usuario)
+    datos = {
+        'Detalles': detalles
+    }
+    return render(request, 'Paginas/Administracion/VerCompras.html', datos)
 
 
 
@@ -307,6 +318,7 @@ def Pagina_Boleta (request):
 
     EstadoPago = 'E'
     EstadoDespacho = 'N'
+    usuario = request.user
     
     boleta = Boleta(iva=total_iva, total_neto=total_neto, total_a_pagar=precio_total, estado_pago=EstadoPago, estado_despacho=EstadoDespacho)
     boleta.save()
@@ -316,7 +328,7 @@ def Pagina_Boleta (request):
             producto = Producto.objects.get(id_producto = value['producto_id'])
             cant = value['cantidad']
             subtotal = cant * int(value['precio'])
-            detalle = DetalleBoleta(id_boleta = boleta, id_producto = producto, cantidad = cant, subtotal = subtotal)
+            detalle = DetalleBoleta(user=usuario,id_boleta = boleta, id_producto = producto, cantidad = cant, subtotal = subtotal)
             detalle.save()
             productos.append(detalle)
     datos={

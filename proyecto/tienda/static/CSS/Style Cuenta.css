@@ -1,6 +1,60 @@
-.boton{
-    background-color: aqua;
-    border: 1px solid black;
+#buscador {
+    padding-left: 7.5%;
+    padding-top: 1%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+}
+.input-group{
+    border-style:hidden;
     border-radius: 5px;
+    display: flex; /* Asegura que los elementos estén en columna */
+    align-items: center;
+    overflow: hidden;
+}
+/* Estilo personalizado para el input */
+.input-group .from-control {
+    width: 80%;
+    padding: 10px;
+    border: none;
 }
 
+/* Estilo personalizado para el contenedor del botón */
+.input-group .input-group-list {
+    display: flex;
+    align-items: center;
+    width: 20%;
+}
+
+/* Estilo personalizado para el botón */
+.boton.btn-success {
+    background-color: rgb(75, 113, 189);
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+    #buscador {
+        width: 80%;
+    }
+    
+    .input-group {
+        width: 100%;
+    }
+
+    .input-group .from-control {
+        width: 80%;
+    }
+
+    .input-group .input-group-list {
+        width: 20%;
+    }
+
+    .boton.btn-success {
+        padding: 5px;
+    }
+}
