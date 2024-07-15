@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 import datetime 
 # Create your models here.
 
@@ -54,6 +55,7 @@ class DetalleBoleta(models.Model):
     id_producto = models.ForeignKey('Producto', on_delete=models.CASCADE)
     subtotal = models.IntegerField()
     cantidad = models.IntegerField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='detalles')
 
     def __str__(self):
         return str(self.id_detalle)

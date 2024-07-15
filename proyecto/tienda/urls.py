@@ -1,7 +1,7 @@
 from django.urls import path 
 from django.contrib.auth.decorators import login_required
 
-from .views import index, EditarUsuario, ListaUsuarios, EditarPerfil, eliminarUsuario, Nosotros, Galeria, Contactanos, Login, Registro, Logout, EditarProductos, AñadirProducto, ListaProductos, eliminarProducto, EditarCategoria, AñadirCategoria, ListaCategoria, eliminarCategoria, Tienda_carrito, agregar_producto, eliminar_producto, restar_producto, sumar_producto, limpiar_carrito, Pagina_Boleta
+from .views import index,  VerCompras, ListaBoletas,ListaUsuarios, EditarPerfil, eliminarUsuario, Nosotros, Galeria, Contactanos, Login, Registro, Logout, EditarProductos, AñadirProducto, ListaProductos, eliminarProducto, EditarCategoria, AñadirCategoria, ListaCategoria, eliminarCategoria, Tienda_carrito, agregar_producto, eliminar_producto, restar_producto, sumar_producto, limpiar_carrito, Pagina_Boleta
 
 from rest_framework import routers
 from .api import ProductoViewSet
@@ -28,7 +28,6 @@ urlpatterns = [
 
     path('EditarPerfil', EditarPerfil, name='EditarPerfil'),
     
-    path('EditarUsuario/<id>',EditarUsuario ,name='EditarUsuario'),
     path('ListaUsuarios',ListaUsuarios ,name='ListaUsuarios'),
     path('eliminar_usuario/<id>',eliminarUsuario ,name='eliminarUsuario'),
 
@@ -43,6 +42,10 @@ urlpatterns = [
     path('eliminar_categoria/<id>',eliminarCategoria ,name='eliminarCategoria'),
 
     path('Carrito', Tienda_carrito , name='Carrito'),
+
+    path('ListaBoletas/<id>',ListaBoletas ,name='ListaBoletas'),
+
+    path('VerCompras', VerCompras, name='VerCompras'), 
 
     path('agregar/<int:id_producto>/', agregar_producto, name='Agregar'),
     path('eliminar/<int:id_producto>/', eliminar_producto, name='eliminar'),
