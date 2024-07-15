@@ -118,29 +118,35 @@
                 <label for="opciones">Comunas:</label>
                 <select class="form-control" id="Comuna" name="Comuna">
                     
-                    
-
                 </select>
             </div>
             <br>
             <label for="radio">Tipo de Producto</label>
             <br>
-            <div id="div-radio">
-                <div id="juguetes-radio">
-            <label for="radio-juguete">Juguete</label>
-            <input type="radio" name="Opcion" id="radio-juguete" value="Juguete">
-                </div>
-            <div id="ropa-radio">
-            <label for="radio-ropa">Ropa</label>
-            <input type="radio" name="Opcion" id="radio-ropa" value="Ropa">
+            <div class="row">
+            {% for categori in categorias %}
+                {% if forloop.counter|divisibleby:"2" %}
+                    <!-- Para elementos pares, cerramos el div anterior y abrimos uno nuevo -->
+                    <div id="{{ categori.nombre }}-radio" class="column">
+                        <label for="radio-{{ categori.nombre }}">{{ categori.nombre }}</label>
+                        <input type="radio" name="Opcion" id="radio-{{ categori.nombre }}" value="{{ categori.nombre }}">
+                    </div>
+                    </div><div class="row"> <!-- Cierra el div de la fila y comienza uno nuevo -->
+                {% else %}
+                    <!-- Para elementos impares, solo agregamos el elemento a la fila actual -->
+                    <div id="{{ categori.nombre }}-radio" class="column">
+                        <label for="radio-{{ categori.nombre }}">{{ categori.nombre }}</label>
+                        <input type="radio" name="Opcion" id="radio-{{ categori.nombre }}" value="{{ categori.nombre }}">
+                    </div>
+                {% endif %}
+            {% endfor %}
             </div>
-            </div>
-            <label for="mensaje">Mensaje:</label>
-            
-            <br>
-            <textarea id="mensaje" name="Mensaje"  minlength="5" maxlength="150" required></textarea>
-            <br>
-            <input type="submit" value="Enviar" id="button">
+                <label for="mensaje">Mensaje:</label>
+                
+                <br>
+                <textarea id="mensaje" name="Mensaje"  minlength="5" maxlength="150" required></textarea>
+                <br>
+                <input type="submit" value="Enviar" id="button">
 
         </form>
     </div>

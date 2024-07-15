@@ -2,6 +2,24 @@ body{
     height: auto;
     width: 100%;
 }
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch; /* Asegura que los elementos de la fila se estiren para igualar la altura */
+}
+
+.column {
+    flex: 50%; /* Ajusta esto según necesites */
+    display: flex;
+    flex-direction: column;
+    justify-content: start; /* Alinea el contenido al inicio de la columna */
+    box-sizing: border-box; /* Asegura que padding y border sean incluidos en la altura y anchura total */
+}
+
+
+
+
+
 #contenedor-contactanos{
     /* aqui hago que les doy las propiedades 
     al padre para poder centrar al hijo al medio*/

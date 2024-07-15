@@ -24,7 +24,11 @@ def index (request):
 
 #formulario de contacto
 def Contactanos (request):
-    return render(request,'Paginas/contactanos.html')
+    categoria = Categoria.objects.all()
+    datos = {
+        'categorias':categoria,
+    }
+    return render(request,'Paginas/contactanos.html',datos)
 
 #Nosotros
 def Nosotros (request):
@@ -347,7 +351,6 @@ def Pagina_Boleta (request):
     carrito = Carrito(request)
     carrito.limpiar()
     return render(request, 'Paginas/Boleta.html',datos)
-
 
 
 
