@@ -162,7 +162,7 @@ fullstars.forEach((fullstar, index) => { // Agrega un event listener a cada estr
 async function leerArchivo() { //funcion que lee el archivo productos.json y devuelve un mensaje
     //leer un archivo JSON en el navegador, puedes hacerlo utilizando la API Fetch
     
-    const url = "https://gist.githubusercontent.com/Nechaiter/f9282b10217392ebccc5dc95cf798714/raw/8ecdafb5566e0041ce982427003cac245c0c7a84/Productos.json";
+    const url = "https://gist.githubusercontent.com/Nechaiter/f9282b10217392ebccc5dc95cf798714/raw/b35c00862ff9325efa5a952120345dfbd3d26368/Productos.json";
     const obtener = 'get'; // hacemos un metodo para solicitar cosas
     // llamas a api lista de regiones
     
