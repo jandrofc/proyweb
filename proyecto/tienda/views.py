@@ -35,7 +35,8 @@ def Galeria (request):
     productos = Producto.objects.filter(stock__gt=0)
     if queryset:
         productos = Producto.objects.filter(
-            Q(categoria__nombre__iexact=queryset) 
+            Q(categoria__nombre__icontains=queryset) & 
+            Q(stock__gt=0) 
         )
     paginator = Paginator(productos, 12)
     pagina = request.GET.get('page') or 1
